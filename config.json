@@ -1,0 +1,7 @@
+{
+	"APP_ID": "wpFAVTgYHZSrmGRFXzPwXZrBjE4btFgNYzOV",
+	"MASTER_KEY": "mqwTHlvm3ltnsUvwQzsI62dYDXGDKAYxONzM",
+	"MONGO_DB_URL": "mongodb://heroku_64g37073:j4kq41uvrk63alh6coh0oveqbe@ds163698.mlab.com:63698/heroku_64g37073",
+	"HTTP_SERVER_PORT_NO": 1338,
+	"CLOUD_URL": "./cloud/main.js"
+}
