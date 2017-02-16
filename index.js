@@ -21,7 +21,7 @@ const DATABASE_URI = process.env.DATABASE_URI || process.env.MONGODB_URI;
 const CLOUD_URL = process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js';
 const APP_ID = process.env.APP_ID || config.APP_ID;
 const MASTER_KEY = process.env.masterKey || config.MASTER_KEY;
-const REST_API_KEY = config.REST_API_KEY;
+const CLIENT_KEY = config.CLIENT_KEY;
 const SERVER_URL = process.env.SERVER_URL || 'http://localhost:' + PORT + '/parse';
 
 if (!DATABASE_URI) {
@@ -45,7 +45,7 @@ var api = new ParseServer({
 	cloud: CLOUD_URL,
 	appId: APP_ID,
 	masterKey: MASTER_KEY,
-	restAPIKey: REST_API_KEY,
+	clientKey: CLIENT_KEY,
 	serverURL: SERVER_URL,
 	liveQuery: {
 		classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions

@@ -1,7 +1,7 @@
 {
 	"APP_ID": "wpFAVTgYHZSrmGRFXzPwXZrBjE4btFgNYzOV",
 	"MASTER_KEY": "mqwTHlvm3ltnsUvwQzsI62dYDXGDKAYxONzM",
-	"REST_API_KEY": "prd8R1dtsX9Zhct7MYkyIQ5tFHcCaR5sjABM",
+	"CLIENT_KEY": "prd8R1dtsX9Zhct7MYkyIQ5tFHcCaR5sjABM",
 	"MONGO_DB_URL": "momongodb://heroku_lvzq8zwg:gur81a65dl6le25m69aauup4hm@ds151049.mlab.com:51049/heroku_lvzq8zwg",
 	"CLOUD_URL": "./cloud/main.js"
 }
