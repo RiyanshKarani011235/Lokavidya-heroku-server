@@ -36,6 +36,7 @@ var printConfig = function() {
 	console.log('CLOUD_URL : ' + CLOUD_URL);
 	console.log('APP_ID : ' + APP_ID);
 	console.log('MASTER_KEY : ' + MASTER_KEY);
+	console.log('CLIENT_KEY : ' + CLIENT_KEY);
 	console.log('SERVER_URL : ' + SERVER_URL);
 }
 
