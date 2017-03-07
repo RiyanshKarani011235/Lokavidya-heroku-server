@@ -12,7 +12,8 @@
   "dependencies": {
     "express": "^4.14.1",
     "parse": "^1.9.2",
-    "parse-server": "^2.3.3"
+    "parse-server": "^2.3.3",
+    "plivo": "^0.4.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

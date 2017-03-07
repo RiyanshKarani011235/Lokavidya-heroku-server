@@ -3,8 +3,8 @@ var path = require('path');
 var ParseServer = require('parse-server').ParseServer;
 var express = require('express');
 
-var serverConfigDir = path.join(__dirname);
-var data = fs.readFileSync(path.join(serverConfigDir, 'config.json'));
+var configDir = path.join(__dirname, 'config');
+var data = fs.readFileSync(path.join(configDir, 'config.json'));
 var config;
 
 try {
@@ -17,7 +17,8 @@ try {
 // Heroku dynamically assigns your app a port, so you can't set the port
 // to a fixed number. Heroku adds the port to the env, so you can pull it from there.
 const PORT = process.env.PORT || 5000;
-const DATABASE_URI = process.env.DATABASE_URI || process.env.MONGODB_URI;
+// const DATABASE_URI = process.env.DATABASE_URI || process.env.MONGODB_URI;
+const DATABASE_URI = process.env.DATABASE_URI || process.env.MONGODB_URI || config.MONGO_DB_URL;
 const CLOUD_URL = process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js';
 const APP_ID = process.env.APP_ID || config.APP_ID;
 const MASTER_KEY = process.env.masterKey || config.MASTER_KEY;
@@ -25,17 +26,6 @@ const SERVER_URL = process.env.SERVER_URL || 'http://localhost:' + PORT + '/pars
 
 if (!DATABASE_URI) {
   throw new Error('DATABASE_URI not specified');
-}
-
-var printConfig = function() {
-	console.log('SERVER CONFIG');
-	console.log('-------------');
-	console.log('PORT : ' + PORT);
-	console.log('DATABASE_URI : ' + DATABASE_URI);
-	console.log('CLOUD_URL : ' + CLOUD_URL);
-	console.log('APP_ID : ' + APP_ID);
-	console.log('MASTER_KEY : ' + MASTER_KEY);
-	console.log('SERVER_URL : ' + SERVER_URL);
 }
 
 // generate parse-server middleware
@@ -71,5 +61,3 @@ app.use('/parse', api);
 app.listen(PORT, function() {
   console.log('Node app is running on port : ' + PORT);
 });
-
-printConfig();
