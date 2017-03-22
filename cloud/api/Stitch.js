@@ -7,6 +7,6 @@
 
 var parse = require('parse')
 
-var ffmpeg = require('fluent-ffmpeg');
-var command = ffmpeg();
-console.log(command)
+// var ffmpeg = require('fluent-ffmpeg');
+// var command = ffmpeg();
+// console.log(command)
