@@ -1,12 +1,10 @@
 // FFMPEG installation for heroku
 // ------------------------------------------------------------------------------
-// heroku buildpacks:set https://github.com/shunjikonishi/heroku-buildpack-ffmpeg
-// git add .
-// git push heroku master
+// https://elements.heroku.com/buildpacks/issueapp/heroku-buildpack-ffmpeg
 // ------------------------------------------------------------------------------
 
 var parse = require('parse')
-
-// var ffmpeg = require('fluent-ffmpeg');
-// var command = ffmpeg();
-// console.log(command)
+var ffmpeg = require('fluent-ffmpeg');
+var command = ffmpeg();
+console.log('hullalalalolelelo');
+console.log(command)
