@@ -11,7 +11,7 @@ var ffmpeg = require('fluent-ffmpeg');
 // variables
 var command = ffmpeg();
 
-Parse.cloud.define('stitch', (request, response) => {
+Parse.Cloud.define('stitch', (request, response) => {
 
 	var query = new Parse.Query("Project");
 	query.equalTo("objectId", request.params.project_id);
