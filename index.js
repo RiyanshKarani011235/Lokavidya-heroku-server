@@ -19,7 +19,7 @@ try {
 // Heroku dynamically assigns your app a port, so you can't set the port
 // to a fixed number. Heroku adds the port to the env, so you can pull it from there.
 const PORT = process.env.PORT || 5000;
-const DATABASE_URI = config.MONGO_DB_URL;
+const DATABASE_URI = process.env.DATABASE_URI || process.env.MONGODB_URI || config.MONGO_DB_URL;
 const CLOUD_URL = process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js';
 const APP_ID = process.env.APP_ID || config.APP_ID;
 const MASTER_KEY = process.env.masterKey || config.MASTER_KEY;
