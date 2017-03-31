@@ -61,4 +61,10 @@ app.use('/parse', api);
 // start http server
 app.listen(PORT, function() {
   console.log('Node app is running on port : ' + PORT);
+  console.log('Server Config : ');
+  console.log('----------------');
+  console.log('database URI : ' + DATABASE_URI);
+  console.log('app ID : ' + APP_ID);
+  console.log('master key : ' + MASTER_KEY);
+  console.log('server URL : ' + SERVER_URL);
 });
