@@ -16,13 +16,18 @@ Parse.Cloud.define('stitch', (request, response) => {
 	var query = new Parse.Query("Project");
 	query.equalTo("objectId", request.params.project_id);
 	query.first({
-		success: function(object) {
+		success: (object) => {
 			console.log('project lookup succedeed : ' + object.id);
 			response.success('project lookup succedeed');
+			stitchProject(object);
 		},
-		error: function() {
+		error: () => {
 			console.log("no project with id : " + request.params.project_id);
 			response.error("no project with id : " + request.params.project_id);
 		}
 	});
 });
+
+var stitchProject(projectObject) {
+	console.log(projectObject);
+}
