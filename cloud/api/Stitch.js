@@ -29,7 +29,16 @@ Parse.Cloud.define('stitch', (request, response) => {
 });
 
 var stitchProject = (projectObject) => {
+	console.log('000000000000000000000000000000');
 	console.log(projectObject);
-	var childrenResources = projectObject.get('children_resources').get('elements');
-	console.log(childrenResources);
+	var childrenResources = projectObject.get('children_resources');
+	childrenResources.fetch({
+		success: (childrenResources) => {
+			var elements = childrenResources.get('elements');
+			console.log('000000000000000000000000000000');
+			console.log(childrenResources);
+			console.log('000000000000000000000000000000');
+			console.log(elements);
+		}
+	})
 }
