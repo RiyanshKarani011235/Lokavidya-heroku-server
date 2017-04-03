@@ -39,6 +39,8 @@ var stitchProject = (projectObject) => {
 			console.log(childrenResources);
 			console.log('000000000000000000000000000000');
 			console.log(elements);
+		}, error: () => {
+			console.log('hmmmmmmmmmmmmmmmmmmmmm');
 		}
 	})
 }
