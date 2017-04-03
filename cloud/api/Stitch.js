@@ -31,12 +31,12 @@ Parse.Cloud.define('stitch', (request, response) => {
 var stitchProject = (projectObject) => {
 	console.log('000000000000000000000000000000');
 	console.log(projectObject);
-	var childrenResources = projectObject.get('children_resources');
-	childrenResources.fetch({
-		success: (childrenResources) => {
-			var elements = childrenResources.get('elements');
+	var slides = projectObject.get('slides');
+	slides.fetch({
+		success: (slides) => {
+			var elements = slides.get('elements');
 			console.log('000000000000000000000000000000');
-			console.log(childrenResources);
+			console.log(slides);
 			console.log('000000000000000000000000000000');
 			console.log(elements);
 		}, error: () => {
