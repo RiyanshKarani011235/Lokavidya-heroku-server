@@ -28,6 +28,6 @@ Parse.Cloud.define('stitch', (request, response) => {
 	});
 });
 
-var stitchProject(projectObject) {
+var stitchProject = (projectObject) => {
 	console.log(projectObject);
 }
