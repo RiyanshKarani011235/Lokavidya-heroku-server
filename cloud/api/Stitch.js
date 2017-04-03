@@ -30,4 +30,6 @@ Parse.Cloud.define('stitch', (request, response) => {
 
 var stitchProject = (projectObject) => {
 	console.log(projectObject);
+	var childrenResources = projectObject.get('children_resources').get('elements');
+	console.log(childrenResources);
 }
