@@ -7,7 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var parse = require('parse')
 var ffmpeg = require('fluent-ffmpeg');
-var BaseResourceClass = require('../interface/BaseResourceClass.js');
+var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
 // variables
 var command = ffmpeg();
