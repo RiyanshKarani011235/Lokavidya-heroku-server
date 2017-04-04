@@ -37,6 +37,7 @@ var stitchProject = (projectObject) => {
 			console.log(elements);
 			var stitchedSlides = [];
 			for(var i=0; i<elements.length; i++) {
+				console.log(i);
 				var slide = elements[i];
 				stitchedSlides.push(BaseResourceClass.stitchSlide(slide));
 			}
