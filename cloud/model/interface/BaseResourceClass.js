@@ -12,9 +12,9 @@ class BaseResourceClass extends BaseParseClass.BaseParseClass {
 var stitchSlide = (slide) => {
     console.log('stitchSlide : called');
     console.log(slide);
-    var childrenResources = slide.get('children_resources');
-    console.log(childrenResources);
-    childrenResources.fetch().then(
+    var c = slide.get('children_resources');
+    console.log(c);
+    c.fetch().then(
         (object) => {
             console.log('hurray');
         },
