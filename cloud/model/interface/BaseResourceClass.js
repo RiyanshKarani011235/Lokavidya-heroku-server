@@ -24,7 +24,7 @@ var stitchSlide = (slide) => {
 
 }
 
-module.exports {
+module.exports = {
     BaseResourceClass,
     stitchSlide
 }
