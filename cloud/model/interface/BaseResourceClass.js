@@ -28,6 +28,7 @@ var stitchSlide = (slide) => {
                             () => {
                                 console.log('b');
                                 var e = c.get('elements');
+                                console.log(e);
                                 e.fetch().then(
                                     () => {
                                         console.log('c');
