@@ -16,20 +16,49 @@ var stitchSlide = (slide) => {
     console.log(childrenResources);
     childrenResources.fetch().then(
         () => {
-            console.log('successsssssssssss');
-            console.log(childrenResources);
             var childResource = childrenResources.get('elements')[0];
             childResource.fetch().then(
                 () => {
                     if(childResource.className === 'Image') {
                         // stitch image
-                        console.log('stitching Image slide');
+                        var c = childResource.get('children_resources');
+                        c.fetch().then(
+                            () => {
+                                var e = c.get('elements');
+                                e.fetch().then(
+                                    () => {
+                                        if(e) {
+                                            // elements is not undefined
+                                            var audioResource = e[0];
+                                            audioResource.fetch().then(
+                                                () => {
+                                                    // we have the audio file now
+                                                    var audioFile = audioResource.get('file');
+                                                    audioFile.fetch().then(
+                                                        () => {
+                                                            var imageFile = childResource.get('file');
+                                                            imageFile.fetch().then(
+                                                                () => {
+                                                                    var audioFileUrl = audioFile.url();
+                                                                    var imageFileUrl = imageFile.url();
+                                                                    console.log('audioFileUrl : ' + audioFileUrl);
+                                                                    console.log('imageFileUrl : ' + imageFileUrl);
+                                                                }
+                                                            )
+                                                        }
+                                                    )
+                                                }
+                                            )
+                                        }
+                                    }
+                                )
+                            }
+                        )
                     } else if(childResource.className == 'Video') {
                         // stitch video
-                        console.log('stitching Video slide');
+                        var file = childResource.get('file');
                     } else if(childResource.className == 'Question') {
                         // stitch question
-                        console.log('stitching Question slide');
                     }
                 }
             );
