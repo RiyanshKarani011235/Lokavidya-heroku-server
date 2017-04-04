@@ -37,7 +37,7 @@ var stitchSlide = (slide) => {
         (error) => {
             console.log(error);
         }
-    });
+    );
 }
 
 module.exports = {
