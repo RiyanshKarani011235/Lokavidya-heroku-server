@@ -18,7 +18,7 @@ var stitchSlide = (slide) => {
         () => {
             console.log('successsssssssssss');
             console.log(childrenResources);
-            var childResource = childrenResources[0];
+            var childResource = childrenResources.get('elements')[0];
             childResource.fetch().then(
                 () => {
                     if(childResource.className === 'Image') {
