@@ -25,6 +25,9 @@ var stitchSlide = (slide) => {
                 // stitch question
                 console.log('stitching Question slide');
             }
+        },
+        error: () => {
+            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
         }
     });
 }
