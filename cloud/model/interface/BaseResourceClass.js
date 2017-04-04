@@ -10,7 +10,7 @@ class BaseResourceClass extends BaseParseClass.BaseParseClass {
 }
 
 var stitchSlide = (slide) => {
-
+    console.log(slide);
     if(slide.className === 'Image') {
         // stitch image
         console.log('stitching Image slide');
