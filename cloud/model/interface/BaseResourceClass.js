@@ -20,25 +20,32 @@ var stitchSlide = (slide) => {
             childResource.fetch().then(
                 () => {
                     if(childResource.className === 'Image') {
+                        console.log('a');
                         // stitch image
                         var c = childResource.get('children_resources');
                         c.fetch().then(
                             () => {
+                                console.log('b');
                                 var e = c.get('elements');
                                 e.fetch().then(
                                     () => {
+                                        console.log('c');
                                         if(e) {
-                                            // elements is not undefined
+                                            // elements is not falsey
                                             var audioResource = e[0];
                                             audioResource.fetch().then(
                                                 () => {
-                                                    // we have the audio file now
+                                                    console.log('d');
                                                     var audioFile = audioResource.get('file');
                                                     audioFile.fetch().then(
                                                         () => {
+                                                            console.log('e');
+                                                            // we have the audio file now
                                                             var imageFile = childResource.get('file');
                                                             imageFile.fetch().then(
                                                                 () => {
+                                                                    console.log('f');
+                                                                    // we have the image file now
                                                                     var audioFileUrl = audioFile.url();
                                                                     var imageFileUrl = imageFile.url();
                                                                     console.log('audioFileUrl : ' + audioFileUrl);
