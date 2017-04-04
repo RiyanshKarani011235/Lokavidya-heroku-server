@@ -15,7 +15,7 @@ var stitchSlide = (slide) => {
     var childrenResources = slide.get('children_resources');
     console.log(childrenResources);
     childrenResources.fetch({
-        success: (childrenResources) => {
+        success: (object) => {
             console.log('successsssssssssss');
             console.log(childrenResources);
             var childResource = childrenResources[0];
