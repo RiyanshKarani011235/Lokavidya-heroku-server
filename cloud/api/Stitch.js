@@ -39,7 +39,11 @@ var stitchProject = (projectObject) => {
 			for(var i=0; i<elements.length; i++) {
 				console.log(i);
 				var slide = elements[i];
-				stitchedSlides.push(BaseResourceClass.stitchSlide(slide));
+				slide.fetch().then(
+					() => {
+						stitchedSlides.push(BaseResourceClass.stitchSlide(slide));
+					}
+				);
 			}
 		}, error: () => {
 			console.log('hmmmmmmmmmmmmmmmmmmmmm');
