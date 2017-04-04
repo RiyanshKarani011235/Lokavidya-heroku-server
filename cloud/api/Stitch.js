@@ -7,6 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var parse = require('parse')
 var ffmpeg = require('fluent-ffmpeg');
+var BaseResourceClass = require('../interface/BaseResourceClass.js');
 
 // variables
 var command = ffmpeg();
@@ -29,16 +30,15 @@ Parse.Cloud.define('stitch', (request, response) => {
 });
 
 var stitchProject = (projectObject) => {
-	console.log('000000000000000000000000000000');
-	console.log(projectObject);
 	var slides = projectObject.get('slides');
 	slides.fetch({
 		success: (slides) => {
 			var elements = slides.get('elements');
-			console.log('000000000000000000000000000000');
-			console.log(slides);
-			console.log('000000000000000000000000000000');
-			console.log(elements);
+			var stitchedSlides = [];
+			for(var i=0; i<elements.length; i++) {
+				var slide = elements[i];
+				stitchedSlides.push(BaseResourceClass.stitchSlide(slide));
+			}
 		}, error: () => {
 			console.log('hmmmmmmmmmmmmmmmmmmmmm');
 		}
