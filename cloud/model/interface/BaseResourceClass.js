@@ -10,18 +10,23 @@ class BaseResourceClass extends BaseParseClass.BaseParseClass {
 }
 
 var stitchSlide = (slide) => {
-    console.log(slide);
-    if(slide.className === 'Image') {
-        // stitch image
-        console.log('stitching Image slide');
-    } else if(slide.className == 'Video') {
-        // stitch video
-        console.log('stitching Video slide');
-    } else if(slide.className == 'Question') {
-        // stitch question
-        console.log('stitching Question slide');
-    }
-
+    var childrenResources = slide.get('children_resources');
+    childrenResources.fetch({
+        success: (childrenResources) => {
+            console.log(childrenResources);
+            var childResource = childrenResources[0];
+            if(childResource.className === 'Image') {
+                // stitch image
+                console.log('stitching Image slide');
+            } else if(childResource.className == 'Video') {
+                // stitch video
+                console.log('stitching Video slide');
+            } else if(childResource.className == 'Question') {
+                // stitch question
+                console.log('stitching Question slide');
+            }
+        }
+    });
 }
 
 module.exports = {
