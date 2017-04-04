@@ -13,7 +13,7 @@ var stitchSlide = (slide) => {
     console.log('stitchSlide : called');
     console.log(slide);
     var childrenResources = slide.get('children_resources');
-    console.log(childResources);
+    console.log(childrenResources);
     childrenResources.fetch({
         success: (childrenResources) => {
             console.log('successsssssssssss');

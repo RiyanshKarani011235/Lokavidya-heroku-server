@@ -44,5 +44,5 @@ var stitchProject = (projectObject) => {
 		}, error: () => {
 			console.log('hmmmmmmmmmmmmmmmmmmmmm');
 		}
-	})
+	});
 }
