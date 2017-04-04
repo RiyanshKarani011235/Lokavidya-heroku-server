@@ -34,18 +34,19 @@ var stitchProject = (projectObject) => {
 	slides.fetch({
 		success: (slides) => {
 			var elements = slides.get('elements');
-			
+
 			console.log(elements);
 			var stitchedSlides = [];
-			for(var i=0; i<elements.length; i++) {
-				console.log(i);
-				var slide = elements[i];
+			elements.forEach((slide) => {
+				console.log('----------------------------------');
+				console.log(slide);
+				console.log('----------------------------------');
 				slide.fetch().then(
 					() => {
 						stitchedSlides.push(BaseResourceClass.stitchSlide(slide));
 					}
 				);
-			}
+			});
 		}, error: () => {
 			console.log('hmmmmmmmmmmmmmmmmmmmmm');
 		}
