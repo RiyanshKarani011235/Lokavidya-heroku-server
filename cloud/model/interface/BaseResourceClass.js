@@ -14,26 +14,14 @@ var stitchSlide = (slide) => {
     console.log(slide);
     var childrenResources = slide.get('children_resources');
     console.log(childrenResources);
-    childrenResources.fetch({
-        success: (object) => {
-            console.log('successsssssssssss');
-            console.log(childrenResources);
-            var childResource = childrenResources[0];
-            if(childResource.className === 'Image') {
-                // stitch image
-                console.log('stitching Image slide');
-            } else if(childResource.className == 'Video') {
-                // stitch video
-                console.log('stitching Video slide');
-            } else if(childResource.className == 'Question') {
-                // stitch question
-                console.log('stitching Question slide');
-            }
+    childrenResources.fetch().then(
+        (object) => {
+            console.log('hurray');
         },
-        error: () => {
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        (error) => {
+            console.log('hmmm');
         }
-    });
+    );
 }
 
 module.exports = {
