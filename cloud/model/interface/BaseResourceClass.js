@@ -37,11 +37,10 @@ var stitchSlide = (slide) => {
                                             console.log(imageFile);
 
                                             // stitch
-                                            var outStream = fs.createWriteStream('output.mp4');
-
                                             ffmpeg()
                                                 .input(audioFile.url())
                                                 .input(imageFile.url())
+                                                .output('outputfile.mp4')
                                                 .videoCodec('libx264')
                                                 .size('640x480')
                                                 .on('stderr', function(stderrLine) {
@@ -56,7 +55,7 @@ var stitchSlide = (slide) => {
                                                     console.log('stitching done');
                                                     return parseFile;
                                                 })
-                                                .pipe(outStream, { end: true });
+                                                .run();
                                         }
                                     )
                                 }
@@ -76,6 +75,23 @@ var stitchSlide = (slide) => {
             console.log(error);
         }
     );
+}
+
+var readTextFile = (file) => {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                fileDisplayArea.innerText = allText
+            }
+        }
+    }
+    rawFile.send(null);
 }
 
 module.exports = {
