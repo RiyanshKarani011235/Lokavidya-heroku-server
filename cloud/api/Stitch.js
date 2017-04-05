@@ -76,12 +76,16 @@ var stitchProject = (projectObject) => {
 													projectObject.save().then(
 														() => {
 															console.log('stitching complete ;)');
+														}, (error) => {
+															console.log(error);
 														}
 													);
+												}, (error) => {
+													console.log(error);
 												}
 											);
 										}, (error) => {
-
+											console.log(error);
 										}
 									);
 								}
