@@ -70,6 +70,7 @@ var stitchSlide = (slide, outputFileName) => {
                             fulfill(childResource.get('file').url());
                         } else if(childResource.className == 'Question') {
                             // stitch question
+                            fulfill();
                         }
                     }
                 );
