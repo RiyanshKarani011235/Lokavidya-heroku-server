@@ -70,6 +70,7 @@ var stitchProject = (projectObject) => {
 									stitchFinalVideo(stitchedFileNames).then(
 										(file) => {
 											console.log('fulfilled');
+											console.log(file);
 											file.save().then(
 												() => {
 													projectObject.put('project_video', file);
