@@ -1,5 +1,6 @@
 var ffmpeg = require('fluent-ffmpeg');
-var FileReader = require('filereader')
+var FileReader = require('filereader');
+
 var BaseParseClass = require('./BaseParseClass');
 
 class BaseResourceClass extends BaseParseClass.BaseParseClass {

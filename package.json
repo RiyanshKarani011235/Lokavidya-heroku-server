@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.1",
+    "filereader": "^0.10.3",
     "fluent-ffmpeg": "^2.1.0",
     "parse": "^1.9.2",
     "parse-server": "^2.3.3",
