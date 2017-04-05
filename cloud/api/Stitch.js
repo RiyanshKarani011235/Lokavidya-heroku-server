@@ -98,14 +98,15 @@ var stitchProject = (projectObject) => {
 
 var stitchFinalVideo = (stitchedFileNames) => {
 	inputOptionsArray = [];
-	stitchedFileNames.forEach((element) => {
-		inputOptionsArray.push('-i ' + element);
-	});
+	for(var i=1; i<stitchedFileNames.length; i++) {
+		inputOptionsArray.push('-i ' + stitchedFileNames[i]);
+	}
 	ffmpeg()
-		.input('')
+		.input(stitchedFileNames[0])
 		.inputOptions(inputOptionsArray)
 		.videoCodec('libx264')
 		.size('640x480')
+		.output('./outputFiles/finalvideo.mp4')
 		.output('./outputFiles/finalvideo.mp4')
 		.on('stderr', function(stderrLine) {
 			console.log('Stderr output: ' + stderrLine);
