@@ -96,7 +96,7 @@ var stitchProject = (projectObject) => {
 	});
 }
 
-var stitchFinalVideo = (sitchedFileNames) => {
+var stitchFinalVideo = (stitchedFileNames) => {
 	inputOptionsArray = [];
 	stitchedFileNames.forEach((element) => {
 		inputOptionsArray.push('-i ' + element);
