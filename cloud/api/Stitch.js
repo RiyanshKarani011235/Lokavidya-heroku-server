@@ -72,7 +72,7 @@ var stitchProject = (projectObject) => {
 									console.log(stitchedFileNames);
 									count += 1;
 									if(count !== numElements) {
-										slide = numElements[count];
+										slide = elements[count];
 										stitchOneSlide(slide);
 									} else {
 										console.log('-------------------------- donezo');
