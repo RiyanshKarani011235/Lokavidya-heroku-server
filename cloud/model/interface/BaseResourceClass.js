@@ -56,6 +56,7 @@ var stitchSlide = (slide) => {
                                                         console.log('before returning');
                                                         return file;
                                                     };
+                                                    reader.readAsDataURL('outputfile.mp4');
                                                 })
                                                 .run();
                                         }
