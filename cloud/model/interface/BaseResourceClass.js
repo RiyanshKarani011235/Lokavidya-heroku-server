@@ -51,8 +51,10 @@ var stitchSlide = (slide) => {
                                                 .videoCodec('libx264')
                                                 .size('640x480');
 
+                                            File file = new File('outputfile.mp4');
+                                            var parseFile = new Parse.File('outputfile', file);
                                             console.log('stitching done');
-
+                                            return parseFile;
                                         }
                                     )
                                 }
@@ -61,6 +63,7 @@ var stitchSlide = (slide) => {
                     } else if(childResource.className == 'Video') {
                         // stitch video
                         var file = childResource.get('file');
+                        return file;
                     } else if(childResource.className == 'Question') {
                         // stitch question
                     }

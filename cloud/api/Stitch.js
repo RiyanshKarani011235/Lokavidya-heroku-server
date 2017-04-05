@@ -38,17 +38,17 @@ var stitchProject = (projectObject) => {
 			console.log(elements);
 			var stitchedSlides = [];
 			elements.forEach((slide) => {
-				console.log('----------------------------------');
-				console.log(slide);
-				console.log('----------------------------------');
 				slide.fetch().then(
 					() => {
-						stitchedSlides.push(BaseResourceClass.stitchSlide(slide));
+						var stitchedFile = BaseResourceClass.stitchSlide(slide);
+						if(stitchedFile) {
+							stitchedSlides.push(stitchedFile);
+						}
 					}
 				);
 			});
+			console.log(stitchedSlides);
 		}, error: () => {
-			console.log('hmmmmmmmmmmmmmmmmmmmmm');
 		}
 	});
 }
