@@ -1,5 +1,6 @@
 var ffmpeg = require('fluent-ffmpeg');
 var FileReader = require('filereader');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 var BaseParseClass = require('./BaseParseClass');
 
