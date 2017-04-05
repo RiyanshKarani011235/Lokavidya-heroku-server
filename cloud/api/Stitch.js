@@ -107,7 +107,7 @@ var stitchFinalVideo = (stitchedFileNames) => {
 		.videoCodec('libx264')
 		.size('640x480')
 		.output('./outputFiles/finalvideo.mp4')
-		on('stderr', function(stderrLine) {
+		.on('stderr', function(stderrLine) {
 			console.log('Stderr output: ' + stderrLine);
 		})
 		.on('end', function(stdout, stderr) {
