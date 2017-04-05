@@ -51,7 +51,7 @@ var stitchSlide = (slide) => {
                                                 .videoCodec('libx264')
                                                 .size('640x480');
 
-                                            File file = new File('outputfile.mp4');
+                                            var file = new File('outputfile.mp4');
                                             var parseFile = new Parse.File('outputfile', file);
                                             console.log('stitching done');
                                             return parseFile;
