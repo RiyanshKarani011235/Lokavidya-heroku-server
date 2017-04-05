@@ -35,16 +35,44 @@ var stitchProject = (projectObject) => {
 		success: (slides) => {
 			var elements = slides.get('elements');
 
+			// const exec = require('child_process').exec;
+			// const child = exec('ls',
+			// 	(error, stdout, stderr) => {
+			// 		console.log(`stdout: ${stdout}`);
+			// 		console.log(`stderr: ${stderr}`);
+			// 		if (error !== null) {
+			// 			console.log(`exec error: ${error}`);
+			// 		}
+			// });
+			//
+			// var reader = new FileReader();
+			// reader.onload = function () {
+			// 	console.log('reader.onload called');
+			// 	var file = new Parse.File("myfile.mp4", { base64: reader.result});
+			// 	console.log('before returning');
+			// 	return file;
+			// }
+			// reader.readAsDataURL(new File(outputFileName));
+
 			console.log(elements);
-			var stitchedSlides = [];
+			var stitchedFileNames = [];
+			var count = 0;
 			elements.forEach((slide) => {
 				slide.fetch().then(
 					() => {
-						var stitchedFile = BaseResourceClass.stitchSlide(slide);
-						if(stitchedFile) {
-							// not falsey
-							stitchedSlides.push(stitchedFile);
-						}
+						var outputFileName = './outputFiles/output' + count + '.mp4';
+						BaseResourceClass.stitchSlide(slide, outputFileName).then(
+							(stitchedFileName) => {
+								if(stitchedFileName) {
+									// not falsey
+									stitchedFileNames.push(stitchedFileName);
+									console.log(stitchedFileNames);
+								}
+							}, (error) => {
+								console.log(error);
+							}
+						);
+						count += 1;
 					}
 				);
 			});
