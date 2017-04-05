@@ -51,6 +51,16 @@ var stitchSlide = (slide) => {
                                                 .on('end', function(stdout, stderr) {
                                                     console.log('Transcoding succeeded !');
 
+                                                    const exec = require('child_process').exec;
+                                                    const child = exec('ls',
+                                                        (error, stdout, stderr) => {
+                                                            console.log(`stdout: ${stdout}`);
+                                                            console.log(`stderr: ${stderr}`);
+                                                            if (error !== null) {
+                                                                console.log(`exec error: ${error}`);
+                                                            }
+                                                    });
+
                                                     var request = new XMLHttpRequest();
                                                     request.open('GET', './outputfile.mp4', true);
                                                     request.responseType = 'blob';
