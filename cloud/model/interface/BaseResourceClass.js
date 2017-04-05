@@ -1,4 +1,5 @@
 var ffmpeg = require('fluent-ffmpeg');
+var File = require('File');
 
 var BaseParseClass = require('./BaseParseClass');
 
@@ -50,7 +51,7 @@ var stitchSlide = (slide) => {
                                                     console.log('Transcoding succeeded !');
                                                     console.log('stitching done');
                                                     var file = new File('outputfile.mp4');
-                                                    console.log('stitching done');
+                                                        console.log('stitching done');
                                                     var parseFile = new Parse.File('outputfile', file);
                                                     console.log('stitching done');
                                                     return parseFile;
