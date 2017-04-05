@@ -37,7 +37,7 @@ var stitchSlide = (slide) => {
                                         () => {
                                             console.log('d');
                                             var audioFile = audioResource.get('file');
-                                            var imageFile = imageResource.get('file');
+                                            var imageFile = childResource.get('file');
                                             console.log(audioFile);
                                             console.log(imageFile);
                                         }
