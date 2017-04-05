@@ -21,21 +21,16 @@ var stitchSlide = (slide) => {
                 () => {
                     console.log(childResource);
                     if(childResource.className === 'Image') {
-                        console.log('a');
                         // stitch image
                         var c = childResource.get('children_resources');
                         c.fetch().then(
                             () => {
-                                console.log('b');
                                 var e = c.get('elements');
-                                console.log(e);
-                                console.log('c');
                                 if(e) {
                                     // elements is not falsey
                                     var audioResource = e[0];
                                     audioResource.fetch().then(
                                         () => {
-                                            console.log('d');
                                             var audioFile = audioResource.get('file');
                                             var imageFile = childResource.get('file');
                                             console.log(audioFile);
