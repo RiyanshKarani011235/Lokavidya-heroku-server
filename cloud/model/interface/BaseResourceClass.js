@@ -65,7 +65,7 @@ var stitchSlide = (slide) => {
                                                         reader.readAsDataURL(request.response);
                                                     }
                                                     request.send();
-                                                });
+                                                })
                                                 .run();
                                         }
                                     )
