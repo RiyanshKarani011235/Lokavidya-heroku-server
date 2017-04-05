@@ -1,5 +1,4 @@
 var ffmpeg = require('fluent-ffmpeg');
-var File = require('File');
 
 var BaseParseClass = require('./BaseParseClass');
 
@@ -38,10 +37,11 @@ var stitchSlide = (slide) => {
                                             console.log(imageFile);
 
                                             // stitch
+                                            var outStream = fs.createWriteStream('output.mp4');
+
                                             ffmpeg()
                                                 .input(audioFile.url())
                                                 .input(imageFile.url())
-                                                .output('outputfile.mp4')
                                                 .videoCodec('libx264')
                                                 .size('640x480')
                                                 .on('stderr', function(stderrLine) {
@@ -56,7 +56,7 @@ var stitchSlide = (slide) => {
                                                     console.log('stitching done');
                                                     return parseFile;
                                                 })
-                                                .run();
+                                                .pipe(outStream, { end: true });
                                         }
                                     )
                                 }
