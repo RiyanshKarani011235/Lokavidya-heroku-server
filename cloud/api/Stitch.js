@@ -103,6 +103,7 @@ var stitchFinalVideo = (stitchedFileNames) => {
 	}
 	ffmpeg()
 		.input(stitchedFileNames[0])
+		
 		.inputOptions(inputOptionsArray)
 		.videoCodec('libx264')
 		.size('640x480')
