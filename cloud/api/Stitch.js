@@ -42,6 +42,7 @@ var stitchProject = (projectObject) => {
 					() => {
 						var stitchedFile = BaseResourceClass.stitchSlide(slide);
 						if(stitchedFile) {
+							// not falsey
 							stitchedSlides.push(stitchedFile);
 						}
 					}
