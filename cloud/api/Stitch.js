@@ -74,6 +74,7 @@ var stitchProject = (projectObject) => {
 											file.save().then(
 												() => {
 													console.log('thenthen');
+													console.log(projectObject);
 													projectObject.put('project_video', file);
 													console.log('thenthen');
 
@@ -85,7 +86,7 @@ var stitchProject = (projectObject) => {
 														}
 													);
 													console.log('thenthen');
-													
+
 												}, (error) => {
 													console.log(error);
 												}
