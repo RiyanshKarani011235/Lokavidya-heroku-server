@@ -36,10 +36,10 @@ var stitchSlide = (slide) => {
                                     audioResource.fetch().then(
                                         () => {
                                             console.log('d');
-                                            var audioFileUrl = audioResource.get('file').url();
-                                            var imageFileUrl = imageResource.get('file').url();
-                                            console.log('audioFileUrl : ' + audioFileUrl);
-                                            console.log('imageFileUrl : ' + imageFileUrl);
+                                            var audioFile = audioResource.get('file');
+                                            var imageFile = imageResource.get('file');
+                                            console.log(audioFile);
+                                            console.log(imageFile);
                                         }
                                     )
                                 }
