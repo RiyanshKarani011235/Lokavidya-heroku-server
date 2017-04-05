@@ -40,6 +40,19 @@ var stitchSlide = (slide) => {
                                             var imageFile = childResource.get('file');
                                             console.log(audioFile);
                                             console.log(imageFile);
+
+                                            // stitch
+
+                                            ffmpeg()
+                                                .input(audioFile.url())
+                                                .input(imageFile.url()))
+                                                .output('outputfile.mp4')
+                                                .audioCodec('libfaac')
+                                                .videoCodec('libx264')
+                                                .size('640x480');
+
+                                            console.log('stitching done');
+
                                         }
                                     )
                                 }
