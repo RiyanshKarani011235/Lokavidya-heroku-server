@@ -139,6 +139,6 @@ var stitchFinalVideo = (stitchedFileNames) => {
 				}
 				reader.readAsDataURL(new File('./outputFiles/finalvideo.mp4'));
 			})
-			.run();
+			.mergeToFile('./outputFiles/finalvideo.mp4', './outputFiles');
 	})
 }
