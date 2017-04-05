@@ -147,12 +147,13 @@ var stitchFinalVideo = (stitchedFileNames) => {
 
 var onStitchComplete = (projectObject) => {
 	//Get value from Ticket Object
-  var user = request.object.get('user');
+  var user = projectObject.get('user');
+  console.log('fetching user');
   user.fetch().then(
-	  () => {
+	  	() => {
 		  console.log('sending push notification');
-		  var pushQuery = new Parse.Query(Parse.User);
-		  pushQuery.equalTo('objectId', user.get('objectId'));
+		  var pushQuery = new Parse.Query(Parse.Installation);
+		  pushQuery.equalTo('user', user);
 
 		  	//Set push query
 			Parse.Push.send({
