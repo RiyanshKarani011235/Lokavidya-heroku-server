@@ -67,7 +67,22 @@ var stitchProject = (projectObject) => {
 									stitchOneSlide(slide);
 								} else {
 									// all elements done
-									stitchFinalVideo(stitchedFileNames);
+									stitchFinalVideo(stitchedFileNames).then(
+										(file) => {
+											file.save().then(
+												() => {
+													projectObject.put('project_video', file);
+													projectObject.save().then(
+														() => {
+															console.log('stitching complete ;)');
+														}
+													);
+												}
+											);
+										}, (error) => {
+
+										}
+									);
 								}
 							}, (error) => {
 								console.log(error);
@@ -86,44 +101,33 @@ var stitchProject = (projectObject) => {
 }
 
 var stitchFinalVideo = (stitchedFileNames) => {
-	inputOptionsArray = [];
-	for(var i=1; i<stitchedFileNames.length; i++) {
-		inputOptionsArray.push('-i ' + stitchedFileNames[i]);
-	}
-	ffmpeg()
-		.input(stitchedFileNames[0])
-		.inputOptions(inputOptionsArray)
-		.videoCodec('libx264')
-		.size('640x480')
-		.output('./outputFiles/finalvideo.mp4')
-		.on('stderr', function(stderrLine) {
-			console.log('Stderr output: ' + stderrLine);
-		})
-		.on('end', function(stdout, stderr) {
-			console.log('Transcoding succeeded !');
+	return new Promise((fulfill, reject) => {
+		inputOptionsArray = [];
+		for(var i=1; i<stitchedFileNames.length; i++) {
+			inputOptionsArray.push('-i ' + stitchedFileNames[i]);
+		}
+		ffmpeg()
+			.input(stitchedFileNames[0])
+			.inputOptions(inputOptionsArray)
+			.videoCodec('libx264')
+			.size('640x480')
+			.output('./outputFiles/finalvideo.mp4')
+			.on('stderr', function(stderrLine) {
+				console.log('Stderr output: ' + stderrLine);
+			})
+			.on('end', function(stdout, stderr) {
+				console.log('Transcoding succeeded !');
 
-			// const exec = require('child_process').exec;
-			// const child = exec('ls',
-			// 	(error, stdout, stderr) => {
-			// 		console.log(`stdout: ${stdout}`);
-			// 		console.log(`stderr: ${stderr}`);
-			// 		if (error !== null) {
-			// 			console.log(`exec error: ${error}`);
-			// 		}
-			// });
-			//
-			var reader = new FileReader();
-			reader.onload = function () {
-				console.log('reader.onload called');
-				console.log(reader.result);
-				var base64String = reader.result.split(',')[1];
-				var file = new Parse.File("myfile.mp4", { base64: base64String});
-				console.log('before returning');
-				return file;
-			}
-			reader.readAsDataURL(new File('./outputFiles/finalvideo.mp4'));
-
-			console.log('-------------------------- donezo');
-		})
-		.run();
+				var reader = new FileReader();
+				reader.onload = function () {
+					console.log('reader.onload called');
+					console.log(reader.result);
+					var base64String = reader.result.split(',')[1];
+					var file = new Parse.File("myfile.mp4", { base64: base64String});
+					fulfill(file);
+				}
+				reader.readAsDataURL(new File('./outputFiles/finalvideo.mp4'));
+			})
+			.run();
+	})
 }
