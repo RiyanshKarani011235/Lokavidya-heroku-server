@@ -81,6 +81,7 @@ var stitchProject = (projectObject) => {
 													projectObject.save().then(
 														() => {
 															console.log('stitching complete ;)');
+															onStitchComplete();
 														}, (error) => {
 															console.log(error);
 														}
@@ -142,4 +143,22 @@ var stitchFinalVideo = (stitchedFileNames) => {
 			// .mergeToFile('./outputFiles/finalvideo.mp4', './outputFiles');
 			.run();
 	})
+}
+
+var onStitchComplete = () => {
+	Parse.Push.send({
+		data: {
+			alert: 'Test',
+			badge: 1,
+			sound: 'default'
+		}
+		}, {
+			success: function() {
+			console.log('##### PUSH OK');
+			},
+			error: function(error) {
+			console.log('##### PUSH ERROR');
+		},
+		useMasterKey: true
+	});
 }
