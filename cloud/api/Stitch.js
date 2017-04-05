@@ -69,6 +69,7 @@ var stitchProject = (projectObject) => {
 									// all elements done
 									stitchFinalVideo(stitchedFileNames).then(
 										(file) => {
+											console.log('fulfilled');
 											file.save().then(
 												() => {
 													projectObject.put('project_video', file);
@@ -120,10 +121,9 @@ var stitchFinalVideo = (stitchedFileNames) => {
 
 				var reader = new FileReader();
 				reader.onload = function () {
-					console.log('reader.onload called');
-					console.log(reader.result);
 					var base64String = reader.result.split(',')[1];
 					var file = new Parse.File("myfile.mp4", { base64: base64String});
+					console.log('before fulfilling');
 					fulfill(file);
 				}
 				reader.readAsDataURL(new File('./outputFiles/finalvideo.mp4'));
