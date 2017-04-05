@@ -1,6 +1,11 @@
 var ffmpeg = require('fluent-ffmpeg');
 var FileReader = require('filereader');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var FileAPI = require('file-api')
+  , File = FileAPI.File
+  , FileList = FileAPI.FileList
+  , FileReader = FileAPI.FileReader
+  ;
 
 var BaseParseClass = require('./BaseParseClass');
 
@@ -61,21 +66,14 @@ var stitchSlide = (slide) => {
                                                             }
                                                     });
 
-                                                    var request = new XMLHttpRequest();
-                                                    request.open('GET', './outputfile.mp4', true);
-                                                    request.responseType = 'blob';
-                                                    request.onload = function() {
-                                                        console.log('request.onLoad : called');
-                                                        var reader = new FileReader();
-                                                        reader.onload = function () {
-                                                            console.log('reader.onload called');
-                                                            var file = new Parse.File("myfile.mp4", { base64: reader.result});
-                                                            console.log('before returning');
-                                                            return file;
-                                                        }
-                                                        reader.readAsDataURL(request.response);
+                                                    var reader = new FileReader();
+                                                    reader.onload = function () {
+                                                        console.log('reader.onload called');
+                                                        var file = new File("myfile.mp4", { base64: reader.result});
+                                                        console.log('before returning');
+                                                        return file;
                                                     }
-                                                    request.send();
+                                                    reader.readAsDataURL(new File('./outputfile.mp4'));
                                                 })
                                                 .run();
                                         }
