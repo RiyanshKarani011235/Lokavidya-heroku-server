@@ -73,10 +73,12 @@ var stitchProject = (projectObject) => {
 								}
 								count += 1;
 								if(count !== numElements) {
+									// stitch next element
 									slide = elements[count];
 									stitchOneSlide(slide);
 								} else {
-									console.log('-------------------------- donezo');
+									// all elements done
+									stitchFinalVideo(stitchedFileNames);
 								}
 							}, (error) => {
 								console.log(error);
@@ -92,4 +94,24 @@ var stitchProject = (projectObject) => {
 		}, error: () => {
 		}
 	});
+}
+
+var stitchFinalVideo = (sitchedFileNames) => {
+	inputOptionsArray = [];
+	stitchedFileNames.forEach((element) => {
+		inputOptionsArray.push('-i ' + element);
+	});
+	ffmpeg()
+		.inputOptions(inputOptionsArray)
+		.videoCodec('libx264')
+		.size('640x480')
+		.output('./outputFiles/finalvideo.mp4')
+		on('stderr', function(stderrLine) {
+			console.log('Stderr output: ' + stderrLine);
+		})
+		.on('end', function(stdout, stderr) {
+			console.log('Transcoding succeeded !');
+			console.log('-------------------------- donezo');
+		})
+		.run();
 }
