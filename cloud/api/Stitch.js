@@ -146,7 +146,7 @@ var stitchFinalVideo = (stitchedFileNames) => {
 }
 
 var onStitchComplete = (projectObject) => {
-	//Get value from Ticket Object
+	console.log('onStitchComplete : called');
   var user = projectObject.get('user');
   console.log('fetching user');
   user.fetch().then(
@@ -159,7 +159,7 @@ var onStitchComplete = (projectObject) => {
 			Parse.Push.send({
 				where: pushQuery,
 				data: {
-					alert: 'Your project has been stitched successfully.',
+					alert: 'Your project has been stitched successfully. ',
 					badge: 1,
 					sound: 'default'
 				}
