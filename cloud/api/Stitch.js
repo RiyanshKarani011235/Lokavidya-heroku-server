@@ -70,18 +70,18 @@ var stitchProject = (projectObject) => {
 									// not falsey
 									stitchedFileNames.push(stitchedFileName);
 									console.log(stitchedFileNames);
+									count += 1;
+									if(count !== numElements) {
+										slide = numElements[count];
+										stitchOneSlide(slide);
+									} else {
+										console.log('-------------------------- donezo');
+									}
 								}
 							}, (error) => {
 								console.log(error);
 							}
 						);
-						count += 1;
-						if(count !== numElements) {
-							slide = numElements[count];
-							stitchOneSlide(slide);
-						} else {
-							console.log('-------------------------- donezo');
-						}
 					}
 				);
 			}
