@@ -61,9 +61,9 @@ var stitchSlide = (slide) => {
                                                             var file = new Parse.File("myfile.mp4", { base64: reader.result});
                                                             console.log('before returning');
                                                             return file;
-                                                        };
+                                                        }
                                                         reader.readAsDataURL(request.response);
-                                                    };
+                                                    }
                                                     request.send();
                                                 });
                                                 .run();
