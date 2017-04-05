@@ -57,7 +57,10 @@ var stitchProject = (projectObject) => {
 			console.log(elements);
 			var stitchedFileNames = [];
 			var count = 0;
-			elements.forEach((slide) => {
+			var numElements = elements.length;
+			var slide = elements[count];
+
+			var stitchOneSlide = (slide) => {
 				slide.fetch().then(
 					() => {
 						var outputFileName = './outputFiles/output' + count + '.mp4';
@@ -73,9 +76,18 @@ var stitchProject = (projectObject) => {
 							}
 						);
 						count += 1;
+						if(count !== numElements) {
+							slide = numElements[count];
+							stitchOneSlide(slide);
+						} else {
+							console.log('-------------------------- donezo');
+						}
 					}
 				);
-			});
+			}
+
+			stitchOneSlide(slide);
+
 			console.log(stitchedSlides);
 		}, error: () => {
 		}
