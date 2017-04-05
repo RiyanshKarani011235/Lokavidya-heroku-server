@@ -150,6 +150,7 @@ var onStitchComplete = (projectObject) => {
   var user = request.object.get('user');
   user.fetch().then(
 	  () => {
+		  console.log('sending push notification');
 		  var pushQuery = new Parse.Query(Parse.User);
 		  pushQuery.equalTo('objectId', user.get('objectId'));
 
@@ -170,6 +171,7 @@ var onStitchComplete = (projectObject) => {
 				},
 				useMasterKey: true
 			});
+
 	  }
   )
 }
