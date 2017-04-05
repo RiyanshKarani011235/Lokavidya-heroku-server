@@ -41,7 +41,6 @@ var stitchSlide = (slide) => {
                                                 .input(audioFile.url())
                                                 .input(imageFile.url())
                                                 .output('outputfile.mp4')
-                                                .audioCodec('libfaac')
                                                 .videoCodec('libx264')
                                                 .size('640x480')
                                                 .on('stderr', function(stderrLine) {
