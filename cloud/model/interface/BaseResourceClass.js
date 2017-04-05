@@ -36,25 +36,10 @@ var stitchSlide = (slide) => {
                                     audioResource.fetch().then(
                                         () => {
                                             console.log('d');
-                                            var audioFile = audioResource.get('file');
-                                            console.log(audioFile);
-                                            audioFile.fetch().then(
-                                                () => {
-                                                    console.log('e');
-                                                    // we have the audio file now
-                                                    var imageFile = childResource.get('file');
-                                                    imageFile.fetch().then(
-                                                        () => {
-                                                            console.log('f');
-                                                            // we have the image file now
-                                                            var audioFileUrl = audioFile.url();
-                                                            var imageFileUrl = imageFile.url();
-                                                            console.log('audioFileUrl : ' + audioFileUrl);
-                                                            console.log('imageFileUrl : ' + imageFileUrl);
-                                                        }
-                                                    )
-                                                }
-                                            )
+                                            var audioFileUrl = audioResource.get('file').url();
+                                            var imageFileUrl = imageResource.get('file').url();
+                                            console.log('audioFileUrl : ' + audioFileUrl);
+                                            console.log('imageFileUrl : ' + imageFileUrl);
                                         }
                                     )
                                 }
