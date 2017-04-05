@@ -145,20 +145,31 @@ var stitchFinalVideo = (stitchedFileNames) => {
 	})
 }
 
-var onStitchComplete = () => {
-	Parse.Push.send({
-		data: {
-			alert: 'Test',
-			badge: 1,
-			sound: 'default'
-		}
-		}, {
-			success: function() {
-			console.log('##### PUSH OK');
-			},
-			error: function(error) {
-			console.log('##### PUSH ERROR');
-		},
-		useMasterKey: true
-	});
+var onStitchComplete = (projectObject) => {
+	//Get value from Ticket Object
+  var user = request.object.get('user');
+  user.fetch().then(
+	  () => {
+		  var pushQuery = new Parse.Query(Parse.User);
+		  pushQuery.equalTo('objectId', user.get('objectId'));
+
+		  	//Set push query
+			Parse.Push.send({
+				where: pushQuery,
+				data: {
+					alert: 'Test',
+					badge: 1,
+					sound: 'default'
+				}
+				}, {
+					success: function() {
+					console.log('##### PUSH OK');
+					},
+					error: function(error) {
+					console.log('##### PUSH ERROR');
+				},
+				useMasterKey: true
+			});
+	  }
+  )
 }
