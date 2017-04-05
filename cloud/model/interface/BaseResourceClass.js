@@ -45,7 +45,7 @@ var stitchSlide = (slide) => {
 
                                             ffmpeg()
                                                 .input(audioFile.url())
-                                                .input(imageFile.url()))
+                                                .input(imageFile.url())
                                                 .output('outputfile.mp4')
                                                 .audioCodec('libfaac')
                                                 .videoCodec('libx264')
