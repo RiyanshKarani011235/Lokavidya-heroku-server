@@ -69,7 +69,7 @@ var stitchSlide = (slide) => {
                                                     var reader = new FileReader();
                                                     reader.onload = function () {
                                                         console.log('reader.onload called');
-                                                        var file = new File("myfile.mp4", { base64: reader.result});
+                                                        var file = new Parse.File("myfile.mp4", { base64: reader.result});
                                                         console.log('before returning');
                                                         return file;
                                                     }
