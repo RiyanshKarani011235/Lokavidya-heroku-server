@@ -41,7 +41,7 @@ var stitchSlide = (slide) => {
                                             ffmpeg()
                                                 .input(audioFile.url())
                                                 .input(imageFile.url())
-                                                .output('outputfile.mp4')
+                                                .output('./outputfile.mp4')
                                                 .videoCodec('libx264')
                                                 .size('640x480')
                                                 .on('stderr', function(stderrLine) {
@@ -50,15 +50,22 @@ var stitchSlide = (slide) => {
                                                 .on('end', function(stdout, stderr) {
                                                     console.log('Transcoding succeeded !');
 
-                                                    var reader = new FileReader();
-                                                    reader.onload = function () {
-                                                        console.log('onload called');
-                                                        var file = new Parse.File("myfile.mp4", { base64: reader.result});
-                                                        console.log('before returning');
-                                                        return file;
+                                                    var request = new XMLHttpRequest();
+                                                    request.open('GET', './outputfile.mp4', true);
+                                                    request.responseType = 'blob';
+                                                    request.onload = function() {
+                                                        console.log('request.onLoad : called');
+                                                        var reader = new FileReader();
+                                                        reader.onload = function () {
+                                                            console.log('reader.onload called');
+                                                            var file = new Parse.File("myfile.mp4", { base64: reader.result});
+                                                            console.log('before returning');
+                                                            return file;
+                                                        };
+                                                        reader.readAsDataURL(request.response);
                                                     };
-                                                    reader.readAsDataURL('outputfile.mp4');
-                                                })
+                                                    request.send();
+                                                });
                                                 .run();
                                         }
                                     )
