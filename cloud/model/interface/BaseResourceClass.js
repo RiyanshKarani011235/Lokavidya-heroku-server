@@ -48,15 +48,14 @@ var stitchSlide = (slide) => {
                                                 })
                                                 .on('end', function(stdout, stderr) {
                                                     console.log('Transcoding succeeded !');
+                                                    console.log('stitching done');
+                                                    var file = new File('outputfile.mp4');
+                                                    console.log('stitching done');
+                                                    var parseFile = new Parse.File('outputfile', file);
+                                                    console.log('stitching done');
+                                                    return parseFile;
                                                 })
                                                 .run();
-
-                                            console.log('stitching done');
-                                            var file = new File('outputfile.mp4');
-                                            console.log('stitching done');
-                                            var parseFile = new Parse.File('outputfile', file);
-                                            console.log('stitching done');
-                                            return parseFile;
                                         }
                                     )
                                 }
