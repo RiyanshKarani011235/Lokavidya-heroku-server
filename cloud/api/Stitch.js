@@ -81,7 +81,7 @@ var stitchProject = (projectObject) => {
 													projectObject.save().then(
 														() => {
 															console.log('stitching complete ;)');
-															onStitchComplete();
+															onStitchComplete(projectObject);
 														}, (error) => {
 															console.log(error);
 														}
@@ -147,13 +147,13 @@ var stitchFinalVideo = (stitchedFileNames) => {
 
 var onStitchComplete = (projectObject) => {
 	console.log('onStitchComplete : called');
-  var user = projectObject.get('user');
-  console.log('fetching user');
-  user.fetch().then(
+  	var user = projectObject.get('user');
+  	console.log('fetching user');
+  	user.fetch().then(
 	  	() => {
-		  console.log('sending push notification');
-		  var pushQuery = new Parse.Query(Parse.Installation);
-		  pushQuery.equalTo('user', user);
+		  	console.log('sending push notification');
+		  	var pushQuery = new Parse.Query(Parse.Installation);
+		  	pushQuery.equalTo('user', user);
 
 		  	//Set push query
 			Parse.Push.send({
