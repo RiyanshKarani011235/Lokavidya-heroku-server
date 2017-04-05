@@ -42,14 +42,20 @@ var stitchSlide = (slide) => {
                                             console.log(imageFile);
 
                                             // stitch
-
                                             ffmpeg()
                                                 .input(audioFile.url())
                                                 .input(imageFile.url())
                                                 .output('outputfile.mp4')
                                                 .audioCodec('libfaac')
                                                 .videoCodec('libx264')
-                                                .size('640x480');
+                                                .size('640x480')
+                                                .on('stderr', function(stderrLine) {
+                                                    console.log('Stderr output: ' + stderrLine);
+                                                })
+                                                .on('end', function(stdout, stderr) {
+                                                    console.log('Transcoding succeeded !');
+                                                })
+                                                .run();
 
                                             console.log('stitching done');
                                             var file = new File('outputfile.mp4');
