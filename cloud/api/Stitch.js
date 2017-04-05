@@ -159,7 +159,7 @@ var onStitchComplete = (projectObject) => {
 			Parse.Push.send({
 				where: pushQuery,
 				data: {
-					alert: 'Test',
+					alert: 'Your project has been stitched successfully.',
 					badge: 1,
 					sound: 'default'
 				}
