@@ -116,7 +116,8 @@ var stitchFinalVideo = (stitchedFileNames) => {
 			reader.onload = function () {
 				console.log('reader.onload called');
 				console.log(reader.result);
-				var file = new Parse.File("myfile.mp4", { base64: reader.result});
+				var base64String = reader.result.split(',')[1];
+				var file = new Parse.File("myfile.mp4", { base64: base64String});
 				console.log('before returning');
 				return file;
 			}
