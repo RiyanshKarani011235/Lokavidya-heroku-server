@@ -7,6 +7,14 @@ var path = require('path');
 var fs = require('fs');
 var parse = require('parse')
 var ffmpeg = require('fluent-ffmpeg');
+var FileReader = require('filereader');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var FileAPI = require('file-api')
+  , File = FileAPI.File
+  , FileList = FileAPI.FileList
+  , FileReader = FileAPI.FileReader
+  ;
+
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
 // variables
