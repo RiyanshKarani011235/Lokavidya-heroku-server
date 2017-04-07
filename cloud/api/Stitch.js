@@ -178,7 +178,7 @@ var onPostStitch = (finalOutputFile) => {
         console.log('before fulfilling');
         fulfill(file);
     }
-    reader.readAsDataURL(finalOutputFile);
+    reader.readAsDataURL(new File(finalOutputFile));
 }
 
 var getNewUniqueFileName = (extension) => {
