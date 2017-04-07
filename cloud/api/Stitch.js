@@ -75,37 +75,36 @@ var stitchProject = (projectObject) => {
 									stitchOneSlide(slide);
 								} else {
                                     console.log(stitchedFileNames);
-                                    binaryStitch(stitchedFileNames);
-									// // all elements done
-									// stitchFinalVideo(stitchedFileNames).then(
-									// 	(file) => {
-									// 		console.log('fulfilled');
-									// 		console.log(file);
-									// 		file.save().then(
-									// 			() => {
-									// 				console.log('thenthen');
-									// 				console.log(projectObject);
-									// 				projectObject.set('project_video', file);
-									// 				console.log('thenthen');
-                                    //
-									// 				projectObject.save().then(
-									// 					() => {
-									// 						console.log('stitching complete ;)');
-									// 						onStitchComplete(projectObject);
-									// 					}, (error) => {
-									// 						console.log(error);
-									// 					}
-									// 				);
-									// 				console.log('thenthen');
-                                    //
-									// 			}, (error) => {
-									// 				console.log(error);
-									// 			}
-									// 		);
-									// 	}, (error) => {
-									// 		console.log(error);
-									// 	}
-									// );
+                                    binaryStitch(stitchedFileNames).then(
+                                        // all elements done
+										(file) => {
+											console.log('fulfilled');
+											console.log(file);
+											file.save().then(
+												() => {
+													console.log('thenthen');
+													console.log(projectObject);
+													projectObject.set('project_video', file);
+													console.log('thenthen');
+
+													projectObject.save().then(
+														() => {
+															console.log('stitching complete ;)');
+															onStitchComplete(projectObject);
+														}, (error) => {
+															console.log(error);
+														}
+													);
+													console.log('thenthen');
+
+												}, (error) => {
+													console.log(error);
+												}
+											);
+										}, (error) => {
+											console.log(error);
+										}
+									);
 								}
 							}, (error) => {
 								console.log(error);
