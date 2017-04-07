@@ -67,7 +67,18 @@ var stitchSlide = (slide, outputFileName) => {
                         } else if(childResource.className == 'Video') {
                             // stitch video
                             var file = childResource.get('file');
-                            fulfill(childResource.get('file').url());
+                            Parse.Cloud.httpRequest({ url: file.url() }).then(function(response) {
+                                // The file contents are in response.buffer.
+                                var newFileName = getNewUniqueFileName(path.extname(file.url()));
+                                fs.write(newFileName, response.buffer, (error) => {
+                                    if(error) {
+                                        reject(error);
+                                    }
+                                    fulfill(newFileName);
+                                }));
+                            });
+
+                            fulfill();
                         } else if(childResource.className == 'Question') {
                             // stitch question
                             fulfill();
@@ -80,6 +91,22 @@ var stitchSlide = (slide, outputFileName) => {
             }
         );
     });
+}
+
+var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
+var getNewUniqueFileName = (extension) => {
+    var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
+    if(extension) {
+        filePath += '.' + extension;
+    }
+    while(fs.existsSync(filePath)) {
+        var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
+        if(extension) {
+            filePath += '.' + extension;
+        }
+    }
+    console.log('generated new unique file : ' + filePath);
+    return filePath;
 }
 
 module.exports = {

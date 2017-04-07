@@ -70,9 +70,3 @@ app.listen(PORT, function() {
   console.log('master key : ' + MASTER_KEY);
   console.log('server URL : ' + SERVER_URL);
 });
-
-var spawn = require('child_process').spawn;
-var ls  = spawn('ls', ['-l']);
-ls.stdout.on('data', function (data) {
-   console.log(data);
-});
