@@ -19,7 +19,6 @@ var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
 // constants
 var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
-console.log('tempOutputFilesDir : ' + tempOutputFilesDir);
 
 // variables
 var command = ffmpeg();
@@ -250,6 +249,8 @@ var stitchFinalVideo = (stitchedFileNames) => {
 }
 
 var onStitchComplete = (projectObject) => {
+    deleteAllTempFiles();
+    
 	console.log('onStitchComplete : called');
   	var user = projectObject.get('user');
   	console.log('fetching user');
