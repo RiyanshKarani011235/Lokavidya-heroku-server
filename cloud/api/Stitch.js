@@ -18,7 +18,7 @@ var FileAPI = require('file-api')
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
 // constants
-var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles';
+var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
 console.log('tempOutputFilesDir : ' + tempOutputFilesDir);
 
 // variables
