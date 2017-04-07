@@ -77,8 +77,6 @@ var stitchSlide = (slide, outputFileName) => {
                                     fulfill(newFileName);
                                 });
                             });
-
-                            fulfill();
                         } else if(childResource.className == 'Question') {
                             // stitch question
                             fulfill();
