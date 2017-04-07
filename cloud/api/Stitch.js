@@ -73,6 +73,7 @@ var stitchProject = (projectObject) => {
 									slide = elements[count];
 									stitchOneSlide(slide);
 								} else {
+                                    console.log(stitchedFileNames);
                                     binaryStitch(stitchedFileNames);
 									// // all elements done
 									// stitchFinalVideo(stitchedFileNames).then(
