@@ -72,7 +72,9 @@ var stitchSlide = (slide, outputFileName) => {
                             Parse.Cloud.httpRequest({ url: file.url() }).then(function(response) {
                                 // The file contents are in response.buffer.
                                 console.log('httpRequest : response');
-                                var newFileName = getNewUniqueFileName(path.extname(file.url()));
+                                var extension = path.extname(file.url())
+                                console.log(extension);
+                                var newFileName = getNewUniqueFileName();
                                 fs.write(newFileName, response.buffer, (error) => {
                                     if(error) {
                                         console.log(error);
