@@ -150,7 +150,7 @@ var binaryStitch = (fileUrls) => {
         } else if(fileUrls.length == 1) {
             fulfill(fileUrls[0]);
         } else {
-            var outputFile = getNewUniqueFileName('.mp4');
+            var outputFile = getNewUniqueFileName('mp4');
             ffmpeg()
                 .input(fileUrls[0])
                 .input(fileUrls[1])
@@ -182,6 +182,7 @@ var onPostStitch = (finalOutputFile) => {
 }
 
 var getNewUniqueFileName = (extension) => {
+    console.log(__dirname);
     var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
     if(extension) {
         filePath += '.' + extension;
