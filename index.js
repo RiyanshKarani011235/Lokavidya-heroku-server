@@ -60,6 +60,12 @@ app.get('/', (req, res) => {
 // instantiate express route for parse
 app.use('/parse', api);
 
+var spawn = require('child_process').spawn,
+var ls  = spawn('ls', ['-l']);
+ls.stdout.on('data', function (data) {
+   console.log(data);
+});
+
 // start http server
 app.listen(PORT, function() {
   console.log('Node app is running on port : ' + PORT);
