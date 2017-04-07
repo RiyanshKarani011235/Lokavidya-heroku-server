@@ -122,7 +122,8 @@ var stitchProject = (projectObject) => {
 }
 
 var binaryStitch = (fileUrls) => {
-    console.log('binaryStitch called with fileUrls : ' + fileUrls);
+    console.log('binaryStitch called with fileUrls : ');
+    console.log(fileUrls);
     if(fileUrls.length > 2) {
         return binaryStitch([binaryStitch(fileUrls.slice(0, fileUrls.legth/2)), binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length))]);
     } else if(fileUrls.length == 1) {
