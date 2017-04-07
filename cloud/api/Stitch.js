@@ -126,32 +126,42 @@ var stitchProject = (projectObject) => {
 var binaryStitch = (fileUrls) => {
     console.log('binaryStitch called with fileUrls : ');
     console.log(fileUrls);
-    if(fileUrls.length > 2) {
-        return binaryStitch([binaryStitch(fileUrls.slice(0, fileUrls.legth/2)), binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length))]);
-    } else if(fileUrls.length == 1) {
-        return fileUrls[0];
-    } else {
-        var newFile = getNewUniqueFileName('.mp4');
-        var isStitched = false;
-        ffmpeg()
-			.input(fileUrls[0])
-            .input(fileUrls[1])
-			.videoCodec('libx264')
-			.size('640x480')
-			.output(newFile)
-			.on('stderr', function(stderrLine) {
-				console.log('Stderr output: ' + stderrLine);
-			})
-			.on('end', function(stdout, stderr) {
-				console.log('Transcoding succeeded !');
-                isStitched = true;
-			})
-			// .mergeToFile('./outputFiles/finalvideo.mp4', './outputFiles');
-			.run();
-
-        while(!isStitched) {}
-        return newFile;
-    }
+    return new Promise((fulfill, reject) => {
+        if(fileUrls.length > 2) {
+            binaryStitch(fileUrls.slice(0, fileUrls.legth/2)).then(
+                (filename1) => {
+                    binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length)).then(
+                        (filename2) => {
+                            binaryStitch([filename1, filename2]).then(
+                                (resultFileName) => {
+                                    fulfill(resultFileName);
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+        } else if(fileUrls.length == 1) {
+            fulfill(fileUrls[0]);
+        } else {
+            var outputFile = getNewUniqueFileName('.mp4');
+            ffmpeg()
+                .input(fileUrls[0])
+                .input(fileUrls[1])
+                .videoCodec('libx264')
+                .size('640x480')
+                .output(outputFile)
+                .on('stderr', function(stderrLine) {
+                    console.log('Stderr output: ' + stderrLine);
+                })
+                .on('end', function(stdout, stderr) {
+                    console.log('Transcoding succeeded !');
+                    fulfill(outputFile);
+                })
+                // .mergeToFile('./outputFiles/finalvideo.mp4', './outputFiles');
+                .run();
+        }
+    });
 }
 
 var getNewUniqueFileName = (extension) => {
