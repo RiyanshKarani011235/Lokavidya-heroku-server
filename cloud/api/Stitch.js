@@ -60,7 +60,8 @@ var stitchProject = (projectObject) => {
 							(stitchedFileName) => {
 								if(stitchedFileName) {
 									// not falsey
-                                    if(stitchedFileName instanceof String) {
+                                    if(stitchedFileName) {
+                                        console.log('pushing')
                                         stitchedFileNames.push(stitchedFileName);
                                     } else {
 
