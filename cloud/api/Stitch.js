@@ -17,6 +17,9 @@ var FileAPI = require('file-api')
 
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
+// constants
+var tempOutputFilesDir = './outputFiles';
+
 // variables
 var command = ffmpeg();
 
@@ -57,7 +60,11 @@ var stitchProject = (projectObject) => {
 							(stitchedFileName) => {
 								if(stitchedFileName) {
 									// not falsey
-									stitchedFileNames.push(stitchedFileName);
+                                    if(stitchedFileName instanceof String) {
+                                        stitchedFileNames.push(stitchedFileName);
+                                    } else {
+
+                                    }
 									console.log(stitchedFileNames);
 								}
 								count += 1;
@@ -66,36 +73,37 @@ var stitchProject = (projectObject) => {
 									slide = elements[count];
 									stitchOneSlide(slide);
 								} else {
-									// all elements done
-									stitchFinalVideo(stitchedFileNames).then(
-										(file) => {
-											console.log('fulfilled');
-											console.log(file);
-											file.save().then(
-												() => {
-													console.log('thenthen');
-													console.log(projectObject);
-													projectObject.set('project_video', file);
-													console.log('thenthen');
-
-													projectObject.save().then(
-														() => {
-															console.log('stitching complete ;)');
-															onStitchComplete(projectObject);
-														}, (error) => {
-															console.log(error);
-														}
-													);
-													console.log('thenthen');
-
-												}, (error) => {
-													console.log(error);
-												}
-											);
-										}, (error) => {
-											console.log(error);
-										}
-									);
+                                    binaryStitch(stitchedFileNames);
+									// // all elements done
+									// stitchFinalVideo(stitchedFileNames).then(
+									// 	(file) => {
+									// 		console.log('fulfilled');
+									// 		console.log(file);
+									// 		file.save().then(
+									// 			() => {
+									// 				console.log('thenthen');
+									// 				console.log(projectObject);
+									// 				projectObject.set('project_video', file);
+									// 				console.log('thenthen');
+                                    //
+									// 				projectObject.save().then(
+									// 					() => {
+									// 						console.log('stitching complete ;)');
+									// 						onStitchComplete(projectObject);
+									// 					}, (error) => {
+									// 						console.log(error);
+									// 					}
+									// 				);
+									// 				console.log('thenthen');
+                                    //
+									// 			}, (error) => {
+									// 				console.log(error);
+									// 			}
+									// 		);
+									// 	}, (error) => {
+									// 		console.log(error);
+									// 	}
+									// );
 								}
 							}, (error) => {
 								console.log(error);
@@ -111,6 +119,69 @@ var stitchProject = (projectObject) => {
 		}, error: () => {
 		}
 	});
+}
+
+var binaryStitch = (fileUrls) => {
+    if(fileUrls.length > 2) {
+        return(binaryStitch([binaryStitch(fileUrls.slice(0, fileUrls.legth/2)), binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length))]);
+    } else if(fileUrls.length == 1) {
+        return fileUrls[0];
+    } else {
+        var newFile = getNewUniqueFileName('.mp4');
+        var isStitched = false;
+        ffmpeg()
+			.input(fileUrls[0])
+            .input(fileUrls[1])
+			.videoCodec('libx264')
+			.size('640x480')
+			.output(newFile)
+			.on('stderr', function(stderrLine) {
+				console.log('Stderr output: ' + stderrLine);
+			})
+			.on('end', function(stdout, stderr) {
+				console.log('Transcoding succeeded !');
+                isStitched = true;
+			})
+			// .mergeToFile('./outputFiles/finalvideo.mp4', './outputFiles');
+			.run();
+
+        while(!isStitched) {}
+        return newFile;
+    }
+}
+
+var getNewUniqueFileName = (extension) => {
+    var filePath = path.join(tempOutputFilesDir, randomString(64, '#A!'));
+    if(extension) {
+        filePath += '.' + extension;
+    }
+    while(fs.existsSync(filePath)) {
+        var filePath = path.join(tempOutputFilesDir, randomString(64, '#A!'));
+        if(extension) {
+            filePath += '.' + extension;
+        }
+    }
+    console.log('generated new unique file : ' + filePath);
+    return filePath;
+}
+
+var deleteAllTempFiles = () => {
+    var files = fs.readdirSync(tempOutputFilesDir);
+    files.foreach((file) => {
+        console.log('deleting file : ' + file);
+        fs.unlinkSync(file);
+    });
+}
+
+var randomString = (length, chars) => {
+    var mask = '';
+    if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+    if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (chars.indexOf('#') > -1) mask += '0123456789';
+    if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+    var result = '';
+    for (var i = length; i > 0; --i) result += mask[Math.floor(Math.random() * mask.length)];
+    return result;
 }
 
 var stitchFinalVideo = (stitchedFileNames) => {
