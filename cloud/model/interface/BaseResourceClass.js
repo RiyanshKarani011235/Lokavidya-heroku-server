@@ -1,3 +1,4 @@
+var fs = require('fs');
 var ffmpeg = require('fluent-ffmpeg');
 var FileReader = require('filereader');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -72,6 +73,7 @@ var stitchSlide = (slide, outputFileName) => {
                                 var newFileName = getNewUniqueFileName(path.extname(file.url()));
                                 fs.write(newFileName, response.buffer, (error) => {
                                     if(error) {
+                                        console.log(error);
                                         reject(error);
                                     }
                                     fulfill(newFileName);
