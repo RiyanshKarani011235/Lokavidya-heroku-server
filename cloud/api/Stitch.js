@@ -170,7 +170,7 @@ var binaryStitch = (fileUrls) => {
     });
 }
 
-var onPostStitch(finalOutputFile) => {
+var onPostStitch = (finalOutputFile) => {
     var reader = new FileReader();
     reader.onload = () => {
         var base64String = reader.result.split(',')[1];
