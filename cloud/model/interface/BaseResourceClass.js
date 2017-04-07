@@ -85,7 +85,8 @@ var stitchSlide = (slide, outputFileName) => {
                                         fulfill(newFileName);
                                     });
                                 } catch (e) {
-                                    throw e
+                                    console.log(e);
+                                    throw e;
                                 }
 
                             });
