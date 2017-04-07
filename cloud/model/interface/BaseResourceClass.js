@@ -1,4 +1,5 @@
 var fs = require('fs');
+var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
 var FileReader = require('filereader');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
