@@ -171,14 +171,16 @@ var binaryStitch = (fileUrls) => {
 }
 
 var onPostStitch = (finalOutputFile) => {
-    var reader = new FileReader();
-    reader.onload = () => {
-        var base64String = reader.result.split(',')[1];
-        var file = new Parse.File("myfile.mp4", { base64: base64String});
-        console.log('before fulfilling');
-        fulfill(file);
-    }
-    reader.readAsDataURL(new File(finalOutputFile));
+    return new Promise((fulfill, reject) => {
+        var reader = new FileReader();
+        reader.onload = () => {
+            var base64String = reader.result.split(',')[1];
+            var file = new Parse.File("myfile.mp4", { base64: base64String});
+            console.log('before fulfilling');
+            fulfill(file);
+        }
+        reader.readAsDataURL(new File(finalOutputFile));
+    });
 }
 
 var getNewUniqueFileName = (extension) => {
