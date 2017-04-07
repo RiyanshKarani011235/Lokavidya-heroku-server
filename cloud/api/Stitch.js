@@ -82,7 +82,6 @@ var stitchProject = (projectObject) => {
                                             onPostStitch(file).then(
                                                 (file) => {
                                                     console.log('fulfilled');
-        											console.log(file);
         											file.save().then(
         												() => {
         													console.log('thenthen');
