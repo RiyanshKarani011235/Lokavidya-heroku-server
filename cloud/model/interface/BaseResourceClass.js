@@ -51,8 +51,8 @@ var stitchSlide = (slide, outputFileName) => {
                                                     .input(audioFile.url())
                                                     .input(imageFile.url())
                                                     .output(outputFileName)
-                                                    .videoCodec('libx264')
-                                                    .size('640x480')
+                                                    // .videoCodec('libx264')
+                                                    // .size('640x480')
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
                                                     })
