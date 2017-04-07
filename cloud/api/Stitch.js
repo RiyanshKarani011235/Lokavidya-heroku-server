@@ -198,6 +198,7 @@ var getNewUniqueFileName = (extension) => {
 }
 
 var deleteAllTempFiles = () => {
+    console.log('deleteAllTempFiles : called');
     var files = fs.readdirSync(tempOutputFilesDir);
     files.foreach((file) => {
         console.log('deleting file : ' + file);
