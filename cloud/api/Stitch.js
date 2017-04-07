@@ -134,7 +134,7 @@ var binaryStitch = (fileUrls) => {
     console.log(fileUrls);
     return new Promise((fulfill, reject) => {
         if(fileUrls.length > 2) {
-            binaryStitch(fileUrls.slice(0, fileUrls.legth/2)).then(
+            binaryStitch(fileUrls.slice(0, fileUrls.length/2)).then(
                 (filename1) => {
                     binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length)).then(
                         (filename2) => {
@@ -250,7 +250,7 @@ var stitchFinalVideo = (stitchedFileNames) => {
 
 var onStitchComplete = (projectObject) => {
     deleteAllTempFiles();
-    
+
 	console.log('onStitchComplete : called');
   	var user = projectObject.get('user');
   	console.log('fetching user');
