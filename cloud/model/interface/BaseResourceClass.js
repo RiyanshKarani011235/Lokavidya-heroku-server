@@ -75,13 +75,19 @@ var stitchSlide = (slide, outputFileName) => {
                                 var extension = path.extname(file.url())
                                 console.log(extension);
                                 var newFileName = getNewUniqueFileName(extension);
-                                fs.write(newFileName, response.buffer, 'binary', (error) => {
-                                    if(error) {
-                                        console.log(error);
-                                        reject(error);
-                                    }
-                                    fulfill(newFileName);
-                                });
+                                try {
+                                    fs.write(newFileName, response.buffer, 'binary', (error) => {
+                                        if(error) {
+                                            console.log(error);
+                                            reject(error);
+                                        }
+                                        console.log('fulfilling');
+                                        fulfill(newFileName);
+                                    });
+                                } catch (e) {
+                                    throw e
+                                }
+
                             });
                         } else if(childResource.className == 'Question') {
                             // stitch question
