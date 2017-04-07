@@ -75,7 +75,7 @@ var stitchSlide = (slide, outputFileName) => {
                                         reject(error);
                                     }
                                     fulfill(newFileName);
-                                }));
+                                });
                             });
 
                             fulfill();
