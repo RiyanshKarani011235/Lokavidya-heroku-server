@@ -155,12 +155,12 @@ var binaryStitch = (fileUrls) => {
 }
 
 var getNewUniqueFileName = (extension) => {
-    var filePath = path.join(tempOutputFilesDir, randomString(64, '#A!'));
+    var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
     if(extension) {
         filePath += '.' + extension;
     }
     while(fs.existsSync(filePath)) {
-        var filePath = path.join(tempOutputFilesDir, randomString(64, '#A!'));
+        var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
         if(extension) {
             filePath += '.' + extension;
         }
