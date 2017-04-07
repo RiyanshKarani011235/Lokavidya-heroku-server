@@ -18,7 +18,8 @@ var FileAPI = require('file-api')
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
 // constants
-var tempOutputFilesDir = './outputFiles';
+var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles';
+console.log('tempOutputFilesDir : ' + tempOutputFilesDir);
 
 // variables
 var command = ffmpeg();
@@ -182,7 +183,6 @@ var onPostStitch = (finalOutputFile) => {
 }
 
 var getNewUniqueFileName = (extension) => {
-    console.log(__dirname);
     var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
     if(extension) {
         filePath += '.' + extension;
