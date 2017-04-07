@@ -93,6 +93,7 @@ var stitchSlide = (slide, outputFileName) => {
     });
 }
 
+var path = require('path');
 var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
 var getNewUniqueFileName = (extension) => {
     var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
