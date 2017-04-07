@@ -76,7 +76,7 @@ var stitchSlide = (slide, outputFileName) => {
                                 console.log(extension);
                                 var newFileName = getNewUniqueFileName(extension);
                                 try {
-                                    fs.write(newFileName, response.buffer, 'binary', (error) => {
+                                    fs.writeFile(newFileName, response.buffer, 'binary', (error) => {
                                         if(error) {
                                             console.log(error);
                                             reject(error);
