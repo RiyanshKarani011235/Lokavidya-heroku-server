@@ -50,8 +50,9 @@ var stitchSlide = (slide, outputFileName) => {
                                                 ffmpeg()
                                                     .input(audioFile.url())
                                                     .input(imageFile.url())
-                                                    .output(outputFileName)
-                                                    // .videoCodec('libx264')
+                                                    .videoCodec('libx264')
+                                                    .fps(29.7)
+                                                    .format('mp4')
                                                     // .size('640x480')
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
@@ -60,7 +61,7 @@ var stitchSlide = (slide, outputFileName) => {
                                                         console.log('Transcoding succeeded !');
                                                         fulfill(outputFileName);
                                                     })
-                                                    .run();
+                                                    .save(outputFileName);
                                             }
                                         );
                                     }
