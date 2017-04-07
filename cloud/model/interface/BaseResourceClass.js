@@ -64,6 +64,9 @@ var stitchSlide = (slide, outputFileName) => {
                                                     .save(outputFileName);
                                             }
                                         );
+                                    } else {
+                                        // no audio, so do nothing
+                                        fulfill();
                                     }
                                 }
                             );
