@@ -200,7 +200,8 @@ var deleteAllTempFiles = () => {
     console.log('deleteAllTempFiles : called');
     try {
         var files = fs.readdirSync(tempOutputFilesDir);
-        files.foreach((file) => {
+        console.log(files);
+        files.forEach((file) => {
             console.log('deleting file : ' + file);
             fs.unlinkSync(file);
         });
