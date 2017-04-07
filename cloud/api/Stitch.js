@@ -56,7 +56,7 @@ var stitchProject = (projectObject) => {
 			var stitchOneSlide = (slide) => {
 				slide.fetch().then(
 					() => {
-						var outputFileName = './outputFiles/output' + count + '.mp4';
+						var outputFileName = path.join(tempOutputFilesDir, 'output' + count + '.mp4';
 						BaseResourceClass.stitchSlide(slide, outputFileName).then(
 							(stitchedFileName) => {
 								if(stitchedFileName) {
@@ -165,7 +165,6 @@ var binaryStitch = (fileUrls) => {
                     console.log('Transcoding succeeded !');
                     fulfill(outputFile);
                 })
-                // .mergeToFile('./outputFiles/finalvideo.mp4', './outputFiles');
                 .run();
         }
     });
