@@ -150,6 +150,7 @@ var binaryStitch = (fileUrls) => {
             fulfill(fileUrls[0]);
         } else {
             var outputFile = getNewUniqueFileName('mp4');
+            console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
             ffmpeg()
                 .input(fileUrls[0])
                 .input(fileUrls[1])
