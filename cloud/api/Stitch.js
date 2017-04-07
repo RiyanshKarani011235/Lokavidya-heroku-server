@@ -76,31 +76,38 @@ var stitchProject = (projectObject) => {
 								} else {
                                     console.log(stitchedFileNames);
                                     binaryStitch(stitchedFileNames).then(
-                                        // all elements done
+									// // all elements done
+									// stitchFinalVideo(stitchedFileNames).then(
 										(file) => {
-											console.log('fulfilled');
-											console.log(file);
-											file.save().then(
-												() => {
-													console.log('thenthen');
-													console.log(projectObject);
-													projectObject.set('project_video', file);
-													console.log('thenthen');
+                                            onPostStitch(file).then(
+                                                (file) => {
+                                                    console.log('fulfilled');
+        											console.log(file);
+        											file.save().then(
+        												() => {
+        													console.log('thenthen');
+        													console.log(projectObject);
+        													projectObject.set('project_video', file);
+        													console.log('thenthen');
 
-													projectObject.save().then(
-														() => {
-															console.log('stitching complete ;)');
-															onStitchComplete(projectObject);
-														}, (error) => {
-															console.log(error);
-														}
-													);
-													console.log('thenthen');
+        													projectObject.save().then(
+        														() => {
+        															console.log('stitching complete ;)');
+        															onStitchComplete(projectObject);
+        														}, (error) => {
+        															console.log(error);
+        														}
+        													);
+        													console.log('thenthen');
 
-												}, (error) => {
-													console.log(error);
-												}
-											);
+        												}, (error) => {
+        													console.log(error);
+        												}
+        											);
+                                                }, (error) => {
+                                                    console.log(error);
+                                                }
+                                            )
 										}, (error) => {
 											console.log(error);
 										}
@@ -161,6 +168,17 @@ var binaryStitch = (fileUrls) => {
                 .run();
         }
     });
+}
+
+var onPostStitch(finalOutputFile) => {
+    var reader = new FileReader();
+    reader.onload = () => {
+        var base64String = reader.result.split(',')[1];
+        var file = new Parse.File("myfile.mp4", { base64: base64String});
+        console.log('before fulfilling');
+        fulfill(file);
+    }
+    reader.readAsDataURL(finalOutputFile);
 }
 
 var getNewUniqueFileName = (extension) => {
