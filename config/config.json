@@ -1,6 +1,6 @@
 {
 	"APP_ID": "wpFAVTgYHZSrmGRFXzPwXZrBjE4btFgNYzOV",
 	"MASTER_KEY": "mqwTHlvm3ltnsUvwQzsI62dYDXGDKAYxONzM",
-	"MONGO_DB_URL": "mongodb://ruralict.iitb.ac.in:27017",
+	"MONGO_DB_URL": "mongodb://ruralict.iitb.ac.in:27017/lokavidya",
 	"CLOUD_URL": "./cloud/main.js"
 }
