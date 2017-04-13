@@ -1,6 +1,6 @@
 {
 	"APP_ID": "wpFAVTgYHZSrmGRFXzPwXZrBjE4btFgNYzOV",
 	"MASTER_KEY": "mqwTHlvm3ltnsUvwQzsI62dYDXGDKAYxONzM",
-	"MONGO_DB_URL": "mongodb://ElonMusk:spacex@ruralict.cse.iitb.ac.in:12345/lokavidya",
+	"MONGO_DB_URL": "mongodb://ElonMusk:spacex@localhost:27017/lokavidya",
 	"CLOUD_URL": "./cloud/main.js"
 }
