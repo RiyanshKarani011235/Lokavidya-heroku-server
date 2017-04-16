@@ -1,6 +1,7 @@
 {
 	"APP_ID": "wpFAVTgYHZSrmGRFXzPwXZrBjE4btFgNYzOV",
 	"MASTER_KEY": "mqwTHlvm3ltnsUvwQzsI62dYDXGDKAYxONzM",
-	"MONGO_DB_URL": "mongodb://ElonMusk:spacex@localhost:27017/lokavidya",
-	"CLOUD_URL": "./cloud/main.js"
+	"MONGO_DB_URL": "mongodb://ElonMusk:spacex@ds139438.mlab.com:39438/lokavidya",
+	"CLOUD_URL": "./cloud/main.js",
+	"PORT_NUMBER": 27017
 }
