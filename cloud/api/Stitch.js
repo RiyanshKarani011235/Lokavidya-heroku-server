@@ -232,7 +232,7 @@ var stitchFinalVideo = (stitchedFileNames) => {
 			.input(stitchedFileNames[0])
 			.inputOptions(inputOptionsArray)
 			.videoCodec('libx264')
-            .outputOptions('-vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"')
+            .inputOptions('-vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"')
 			.output('./outputFiles/finalvideo.mp4')
 			.on('stderr', function(stderrLine) {
 				console.log('Stderr output: ' + stderrLine);
