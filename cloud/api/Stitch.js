@@ -216,10 +216,8 @@ var getNewUniqueFileName = (extension) => {
 }
 
 var deleteAllTempFiles = () => {
-    console.log('deleteAllTempFiles : called');
     try {
         var files = fs.readdirSync(tempOutputFilesDir);
-        console.log(files);
         files.forEach((file) => {
             var f = path.join(tempOutputFilesDir, file);
             console.log('deleting file : ' + f);
@@ -272,14 +270,11 @@ var stitchFinalVideo = (stitchedFileNames) => {
 }
 
 var onStitchComplete = (projectObject) => {
-    deleteAllTempFiles();
+    // deleteAllTempFiles();
 
-	console.log('onStitchComplete : called');
   	var user = projectObject.get('user');
-  	console.log('fetching user');
   	user.fetch().then(
 	  	() => {
-		  	console.log('sending push notification');
 		  	var pushQuery = new Parse.Query(Parse.Installation);
 		  	pushQuery.equalTo('user', user);
 
@@ -293,10 +288,10 @@ var onStitchComplete = (projectObject) => {
 				}
 				}, {
 					success: function() {
-					console.log('##### PUSH OK');
+					console.log('PUSH NOTIFICATION SENT');
 					},
 					error: function(error) {
-					console.log('##### PUSH ERROR');
+					console.log('PUSH NOTIFICATION ERROR');
 				},
 				useMasterKey: true
 			});
