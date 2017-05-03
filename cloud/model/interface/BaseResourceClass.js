@@ -54,6 +54,15 @@ var stitchSlide = (slide, outputFileName) => {
                                                     .fps(29.7)
                                                     .format('mp4')
                                                     // .size('640x480')
+                                                    .outputOptions([
+                                                        '-c:v libx264',
+                                                        '-preset slow',
+                                                        '-crf 22',
+                                                        '-c:a aac',
+                                                        '-strict experimental',
+                                                        '-pix_fmt yuv420p',
+                                                        '-b:a 192k'
+                                                    ])
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
                                                     })
