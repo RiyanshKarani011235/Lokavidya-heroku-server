@@ -21,6 +21,23 @@ var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
 
 // variables
+var configDir = path.join(__dirname, '..', '..', 'config');
+var data = fs.readFileSync(path.join(configDir, 'ffmpeg_config.json'));
+var ffmpegConfig;
+
+try {
+	ffmpegConfig = JSON.parse(data);
+    if(ffmpegConfig.FFMPEG_PATH) {
+        console.log('setting ffmpeg path : ' + ffmpegConfig.FFMPEG_PATH);
+        ffmpeg.setFfmpegPath(ffmpegConfig.FFMPEG_PATH);
+    }
+    if(ffmpegConfig.FFPROBE_PATH) {
+        console.log('setting ffprobe path : ' + ffmpegConfig.FFPROBE_PATH);
+        ffmpeg.setFfprobePath(ffmpegConfig.FFPROBE_PATH);
+    }
+} catch (err) {
+    console.log(err);
+}
 var command = ffmpeg();
 
 Parse.Cloud.define('stitch', (request, response) => {
