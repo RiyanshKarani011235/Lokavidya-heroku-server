@@ -1,0 +1,4 @@
+{
+    "FFMPEG_PATH": "/root/ffmpeg_sources/ffmpeg/ffmpeg",
+    "FFPROBE_PATH": "/root/ffmpeg_sources/ffmpeg/ffprobe"
+}
