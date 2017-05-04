@@ -14,6 +14,7 @@ var FileAPI = require('file-api')
   , FileList = FileAPI.FileList
   , FileReader = FileAPI.FileReader
   ;
+var exec = require('child_process').exec, child;
 
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
@@ -169,6 +170,17 @@ var binaryStitch = (fileUrls) => {
         } else {
             var outputFile = getNewUniqueFileName('mp4');
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
+
+            child = exec('./mmcat ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + path.join(tempOutputFilesDir, outputFile),
+                function (error, stdout, stderr) {
+                    console.log('stdout: ' + stdout);
+                    console.log('stderr: ' + stderr);
+                    if (error !== null) {
+                         console.log('exec error: ' + error);
+                    }
+                });
+             child();
+
             ffmpeg()
                 .input(fileUrls[0])
                 .input(fileUrls[1])

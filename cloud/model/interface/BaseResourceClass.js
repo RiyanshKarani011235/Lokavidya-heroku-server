@@ -53,7 +53,7 @@ var stitchSlide = (slide, outputFileName) => {
                                                     .videoCodec('libx264')
                                                     .fps(29.7)
                                                     .format('mp4')
-                                                    .size('200x200')
+                                                    // .size('200x200')
                                                     .outputOptions([
                                                         '-c:v libx264',
                                                         '-preset slow',
