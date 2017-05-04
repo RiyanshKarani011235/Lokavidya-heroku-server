@@ -172,7 +172,7 @@ var binaryStitch = (fileUrls) => {
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
             try {
-                var stitchCommandString = path.join(__dirname, 'mmcat') + ' ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + outputFile);
+                var stitchCommandString = path.join(__dirname, 'mmcat') + ' ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + outputFile;
                 console.log(stitchCommandString);
                 exec(stitchCommandString, (error, stdout, stderr) => {
                     console.log('stdout: ' + stdout);
