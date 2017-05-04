@@ -172,7 +172,7 @@ var binaryStitch = (fileUrls) => {
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
             try {
-                var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ffmpeg -f concat -safe 0 -i - -c copy ' + outputFile;
+                var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ffmpeg -y -f concat -safe 0 -i - -c copy ' + outputFile;
                 console.log(stitchCommandString);
                 exec(stitchCommandString, (error, stdout, stderr) => {
                     console.log('stdout: ' + stdout);
