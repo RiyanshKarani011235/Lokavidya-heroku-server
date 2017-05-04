@@ -68,6 +68,7 @@ fi
 # $inputs - all the inputs, except the first input, because 1st input is
 #           handled separately
 ################################################################################
+echo "get all command line parameters, except for the last one, which is output"
 first=${@:1:1}
 last=${@:$#:1}
 len=$(($#-2))
@@ -80,6 +81,8 @@ rm -f $TMP/mcs_*
 # decode first input differently, because the video header does not have to be
 # kept for each video input, only the header from the first video is needed
 ################################################################################
+echo "decode first input differently, because the video header does not have to be"
+echo "kept for each video input, only the header from the first video is needed"
 mkfifo $TMP/mcs_a1 $TMP/mcs_v1
 
 ffmpeg -y -i $first -vn -f u16le -acodec pcm_s16le -ac 2 -ar 44100 $TMP/mcs_a1 2>/dev/null </dev/null &
@@ -94,6 +97,7 @@ ffmpeg -y -i $first -an -f yuv4mpegpipe -vcodec rawvideo $TMP/mcs_v1 2>/dev/null
 # decode all the other inputs, remove first line of video (header) with tail
 # $all_a and $all_v are lists of all a/v fifos, to be used by "cat" later on
 ################################################################################
+echo "decode all the other inputs, remove first line of video (header) with tail"
 all_a=$TMP/mcs_a1
 all_v=$TMP/mcs_v1
 i=2
@@ -117,6 +121,7 @@ done
 ################################################################################
 # concatenate all raw audio/video inputs into one audio/video
 ################################################################################
+echo "concatenate all raw audio/video inputs into one audio/video"
 mkfifo $TMP/mcs_a_all
 mkfifo $TMP/mcs_v_all
 cat $all_a > $TMP/mcs_a_all &
@@ -125,6 +130,7 @@ cat $all_v > $TMP/mcs_v_all &
 ################################################################################
 # finally, encode the raw concatenated audio/video into something useful
 ################################################################################
+echo "finally, encode the raw concatenated audio/video into something useful"
 ffmpeg -f u16le -acodec pcm_s16le -ac 2 -ar 44100 -i $TMP/mcs_a_all \
        -f yuv4mpegpipe -vcodec rawvideo -i $TMP/mcs_v_all \
 	$EXTRA_OPTIONS \
@@ -133,4 +139,5 @@ ffmpeg -f u16le -acodec pcm_s16le -ac 2 -ar 44100 -i $TMP/mcs_a_all \
 ################################################################################
 # remove all fifos
 ################################################################################
+echo "remove all files"
 rm -f $TMP/mcs_*
