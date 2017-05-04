@@ -181,6 +181,8 @@ var binaryStitch = (fileUrls) => {
                          console.log('exec error: ' + error);
                     }
                 });
+                console.log('exec complete');
+                // fulfill(outputFile);
             } catch (e) {console.log(e)}
 
 
