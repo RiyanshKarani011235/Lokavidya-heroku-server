@@ -183,7 +183,7 @@ var binaryStitch = (fileUrls) => {
                     console.log('Transcoding succeeded !');
                     fulfill(outputFile);
                 })
-                .run();
+                .mergeToFile(tempOutputFilesDir, outputFile);
         }
     });
 }
