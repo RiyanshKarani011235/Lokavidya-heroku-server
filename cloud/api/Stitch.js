@@ -171,15 +171,18 @@ var binaryStitch = (fileUrls) => {
             var outputFile = getNewUniqueFileName('mp4');
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
-            var stitchCommandString = path.join(__dirname, 'mmcat') + ' ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + path.join(tempOutputFilesDir, outputFile);
-            console.log(stitchCommandString);
-            exec(stitchCommandString, (error, stdout, stderr) => {
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
-                if (error !== null) {
-                     console.log('exec error: ' + error);
-                }
-            });
+            try {
+                var stitchCommandString = path.join(__dirname, 'mmcat') + ' ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + path.join(tempOutputFilesDir, outputFile);
+                console.log(stitchCommandString);
+                exec(stitchCommandString, (error, stdout, stderr) => {
+                    console.log('stdout: ' + stdout);
+                    console.log('stderr: ' + stderr);
+                    if (error !== null) {
+                         console.log('exec error: ' + error);
+                    }
+                });
+            } catch (e) {console.log(e)}
+
 
             // ffmpeg()
             //     .input(fileUrls[0])
