@@ -173,7 +173,7 @@ var binaryStitch = (fileUrls) => {
                 .input(fileUrls[0])
                 .input(fileUrls[1])
                 .videoCodec('libx264')
-                .output(outputFile)
+                .outputOptions(['-strict -2'])
                 .on('stderr', function(stderrLine) {
                     console.log('Stderr output: ' + stderrLine);
                 })
