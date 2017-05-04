@@ -14,7 +14,7 @@ var FileAPI = require('file-api')
   , FileList = FileAPI.FileList
   , FileReader = FileAPI.FileReader
   ;
-var exec = require('child_process').exec, child;
+var exec = require('child_process').exec;
 
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
@@ -180,8 +180,8 @@ var binaryStitch = (fileUrls) => {
                     if (error !== null) {
                          console.log('exec error: ' + error);
                     }
+                    console.log('exec complete');
                 });
-                console.log('exec complete');
                 // fulfill(outputFile);
             } catch (e) {console.log(e)}
 
