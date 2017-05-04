@@ -180,9 +180,8 @@ var binaryStitch = (fileUrls) => {
                     if (error !== null) {
                          console.log('exec error: ' + error);
                     }
-                    console.log('exec complete');
+                    fulfill(outputFile);
                 });
-                // fulfill(outputFile);
             } catch (e) {console.log(e)}
 
 
