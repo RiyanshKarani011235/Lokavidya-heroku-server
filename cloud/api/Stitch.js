@@ -171,7 +171,7 @@ var binaryStitch = (fileUrls) => {
             var outputFile = getNewUniqueFileName('mp4');
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
-            child = exec('./mmcat ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + path.join(tempOutputFilesDir, outputFile),
+            child = exec(path.join(__dirname, 'mmcat') + ' ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + path.join(tempOutputFilesDir, outputFile),
                 function (error, stdout, stderr) {
                     console.log('stdout: ' + stdout);
                     console.log('stderr: ' + stderr);
