@@ -187,11 +187,6 @@ var binaryStitch = (fileUrls) => {
             ffmpeg()
                 .input(fileUrls[0])
                 .input(fileUrls[1])
-                .videoCodec('libx264')
-                .output(outputFile)
-                .addOption('-filter_complex', '[0:v:0] [0:a:0] [1:v:0] [1:a:0] concat=n=2:v=1:a=1 [v] [a]')
-                .addOption('-map', '[v]')
-                .addOption('-map', '[a]')
                 .on('stderr', function(stderrLine) {
                     console.log('Stderr output: ' + stderrLine);
                 })
