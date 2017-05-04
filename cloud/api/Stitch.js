@@ -171,30 +171,29 @@ var binaryStitch = (fileUrls) => {
             var outputFile = getNewUniqueFileName('mp4');
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
-            child = exec(path.join(__dirname, 'mmcat') + ' ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + path.join(tempOutputFilesDir, outputFile),
-                function (error, stdout, stderr) {
-                    console.log('stdout: ' + stdout);
-                    console.log('stderr: ' + stderr);
-                    if (error !== null) {
-                         console.log('exec error: ' + error);
-                    }
-                });
-             child();
+            var stitchCommandString = path.join(__dirname, 'mmcat') + ' ' + fileUrls[0] + ' ' + fileUrls[1] + ' ' + path.join(tempOutputFilesDir, outputFile);
+            exec(stitchCommandString, (error, stdout, stderr) => {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                     console.log('exec error: ' + error);
+                }
+            });
 
-            ffmpeg()
-                .input(fileUrls[0])
-                .input(fileUrls[1])
-                .videoCodec('libx264')
-                .output(outputFile)
-                .outputOptions(['-strict -2'])
-                .on('stderr', function(stderrLine) {
-                    console.log('Stderr output: ' + stderrLine);
-                })
-                .on('end', function(stdout, stderr) {
-                    console.log('Transcoding succeeded !');
-                    fulfill(outputFile);
-                })
-                .mergeToFile(outputFile, tempOutputFilesDir);
+            // ffmpeg()
+            //     .input(fileUrls[0])
+            //     .input(fileUrls[1])
+            //     .videoCodec('libx264')
+            //     .output(outputFile)
+            //     .outputOptions(['-strict -2'])
+            //     .on('stderr', function(stderrLine) {
+            //         console.log('Stderr output: ' + stderrLine);
+            //     })
+            //     .on('end', function(stdout, stderr) {
+            //         console.log('Transcoding succeeded !');
+            //         fulfill(outputFile);
+            //     })
+            //     .mergeToFile(outputFile, tempOutputFilesDir);
         }
     });
 }
