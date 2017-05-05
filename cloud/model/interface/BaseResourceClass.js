@@ -59,6 +59,12 @@ var stitchSlide = (slide, outputFileName) => {
                                                 ffmpeg()
                                                     .input(audioFile.url())
                                                     .input(imageFile.url())
+
+                                                    // output file
+                                                    .output(outputFileName)
+                                                    .size('800x?')
+                                                    .aspect('4:3')
+                                                    .autopad()
                                                     .videoCodec('libx264')
                                                     .fps(29.7)
                                                     .format('mp4')
@@ -71,8 +77,7 @@ var stitchSlide = (slide, outputFileName) => {
                                                         '-pix_fmt yuv420p',
                                                         '-b:a 192k'
                                                     ])
-                                                    .size('800x?')
-                                                    .autopad()
+
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
                                                     })
@@ -80,7 +85,7 @@ var stitchSlide = (slide, outputFileName) => {
                                                         console.log('Transcoding succeeded !');
                                                         fulfill(outputFileName);
                                                     })
-                                                    .save(outputFileName);
+                                                    .run();
                                             }
                                         );
                                     } else {
