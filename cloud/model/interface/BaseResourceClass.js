@@ -101,18 +101,21 @@ var stitchSlide = (slide, outputFileName) => {
 
                                         // convert the video to a predefined format
                                         var outputVideo = fileUtils.getNewUniqueFileName('mp4');
+                                        console.log('outputVideo : ' + outputVideo);
                                         var width = 1080;
                                         var height = 720;
-                                        var resolution = "[in]scale=iw*min(" + width + "/iw\\,"
-                            				+ width + "/ih):ih*min("
-                            				+ width + "/iw\\," + height
-                            				+ "/ih)[scaled]; [scaled]pad=" + width + ":"
-                            				+ height + ":(" + width
-                            				+ "-iw*min(" + width + "/iw\\,"
-                            				+ height + "/ih))/2:("
-                            				+ height + "-ih*min("
-                            				+ width + "/iw\\," + height
-                            				+ "/ih))/2[padded]; [padded]setsar=1:1[out]";
+                                        console.log('before');
+                                        var resolution = '[in]scale=iw*min(' + width + '/iw\\,'
+                            				+ width + '/ih):ih*min('
+                            				+ width + '/iw\\,' + height
+                            				+ '/ih)[scaled]; [scaled]pad=' + width + ':'
+                            				+ height + ':(' + width
+                            				+ '-iw*min(' + width + '/iw\\,'
+                            				+ height + '/ih))/2:('
+                            				+ height + '-ih*min('
+                            				+ width + '/iw\\,' + height
+                            				+ '/ih))/2[padded]; [padded]setsar=1:1[out]';
+                                        console.log('after');
                                         var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -b:a 192K -pix_fmt yuv420p -vf ' + resolution + ' -shortest ' + outputFile;
                                         console.log('convert video command string : ' + stitchCommandString);
                                         exec(command, (error, stdout, stderr) => {
