@@ -20,7 +20,8 @@ var fileUtils = require('../utils/FileUtils.js');
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
 // constants
-var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
+const tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
+const VIDEO_FILE_EXTENSION = 'mp4';
 
 // variables
 var configDir = path.join(__dirname, '..', '..', 'config');
@@ -78,7 +79,7 @@ var stitchProject = (projectObject) => {
 				slide.fetch().then(
 					() => {
                         console.log('before get new unique file name');
-						var outputFileName = fileUtils.getNewUniqueFileName(mp4);
+						var outputFileName = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
                         console.log('after get new unique file name');
 						BaseResourceClass.stitchSlide(slide, outputFileName).then(
 							(stitchedFileName) => {
@@ -168,7 +169,7 @@ var binaryStitch = (fileUrls) => {
         } else if(fileUrls.length == 1) {
             fulfill(fileUrls[0]);
         } else {
-            var outputFile = fileUtils.getNewUniqueFileName('mp4');
+            var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
             try {
