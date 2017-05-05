@@ -57,6 +57,7 @@ var stitchSlide = (slide, outputFileName) => {
 
                                                 // stitch
                                                 ffmpeg()
+                                                    // input
                                                     .input(audioFile.url())
                                                     .input(imageFile.url())
 
@@ -78,6 +79,7 @@ var stitchSlide = (slide, outputFileName) => {
                                                         '-b:a 192k'
                                                     ])
 
+                                                    // callbacks
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
                                                     })
@@ -108,30 +110,51 @@ var stitchSlide = (slide, outputFileName) => {
                                             reject(error);
                                         }
 
-                                        // convert the video to a predefined format
                                         var outputVideo = fileUtils.getNewUniqueFileName('mp4');
-                                        var width = 800;
-                                        var height = '?';
-                                        var resolution = '\"[in]scale=iw*min(' + width + '/iw\\,'
-                            				+ width + '/ih):ih*min('
-                            				+ width + '/iw\\,' + height
-                            				+ '/ih)[scaled]; [scaled]pad=' + width + ':'
-                            				+ height + ':(' + width
-                            				+ '-iw*min(' + width + '/iw\\,'
-                            				+ height + '/ih))/2:('
-                            				+ height + '-ih*min('
-                            				+ width + '/iw\\,' + height
-                            				+ '/ih))/2[padded]; [padded]setsar=1:1[out]\"';
-                                        var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -pix_fmt yuv420p ' + outputVideo;
-                                        console.log('convert video command string : ' + command);
-                                        exec(command, (error, stdout, stderr) => {
-                                            console.log('stdout: ' + stdout);
-                                            console.log('stderr: ' + stderr);
-                                            if (error !== null) {
-                                                 console.log('exec error: ' + error);
-                                            }
-                                            fulfill(outputVideo);
-                                        });
+                                        
+                                        // convert the video to a predefined format
+                                        ffmpeg()
+                                            // input
+                                            .input(newFileName)
+
+                                            // output file
+                                            .output(outputVideo)
+                                            .size('800x?')
+                                            .aspect('4:3')
+                                            .autopad()
+                                            .videoCodec('libx264')
+                                            .fps(29.7)
+                                            .format('mp4')
+                                            .outputOptions([
+                                                '-c:v libx264',
+                                                '-preset slow',
+                                                '-crf 22',
+                                                '-c:a aac',
+                                                '-strict experimental',
+                                                '-pix_fmt yuv420p',
+                                                '-b:a 192k'
+                                            ])
+
+                                            // callbacks
+                                            .on('stderr', function(stderrLine) {
+                                                console.log('Stderr output: ' + stderrLine);
+                                            })
+                                            .on('end', function(stdout, stderr) {
+                                                console.log('Transcoding succeeded !');
+                                                fulfill(outputVideo);
+                                            })
+                                            .run();
+
+                                        // var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -pix_fmt yuv420p ' + outputVideo;
+                                        // console.log('convert video command string : ' + command);
+                                        // exec(command, (error, stdout, stderr) => {
+                                        //     console.log('stdout: ' + stdout);
+                                        //     console.log('stderr: ' + stderr);
+                                        //     if (error !== null) {
+                                        //          console.log('exec error: ' + error);
+                                        //     }
+                                        //     fulfill(outputVideo);
+                                        // });
                                     });
                                 } catch (e) {
                                     console.log(e);
