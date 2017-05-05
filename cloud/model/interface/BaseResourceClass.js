@@ -9,9 +9,15 @@ var FileAPI = require('file-api')
   , FileReader = FileAPI.FileReader
   ;
 var fileUtils = require('../../utils/FileUtils.js');
-
-
 var BaseParseClass = require('./BaseParseClass');
+
+var configDir = path.join(__dirname, '..', '..', '..', 'config');
+var data = fs.readFileSync(path.join(configDir, 'ffmpeg_config.json'));
+var ffmpegConfig;
+
+try {
+	ffmpegConfig = JSON.parse(data);
+} catch (err) {console.log(err);}
 
 class BaseResourceClass extends BaseParseClass.BaseParseClass {
 
