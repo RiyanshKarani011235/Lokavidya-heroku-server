@@ -90,8 +90,10 @@ var stitchSlide = (slide, outputFileName) => {
                                 var extension = path.extname(file.url())
                                 console.log(extension);
                                 var newFileName = fileUtils.getNewUniqueFileName(extension);
+                                console.log('newFileName : ' + newFileName)
                                 try {
                                     fs.writeFile(newFileName, response.buffer, 'binary', (error) => {
+                                        console.log('writeFile : returning');
                                         if(error) {
                                             console.log(error);
                                             reject(error);
