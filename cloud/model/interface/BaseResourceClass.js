@@ -55,6 +55,19 @@ var stitchSlide = (slide, outputFileName) => {
                                                 console.log(audioFile);
                                                 console.log(imageFile);
 
+                                                var width = 800;
+                                                var height = 600;
+                                                var resolution = '\"[in]scale=iw*min(' + width + '/iw\\,'
+                                    				+ width + '/ih):ih*min('
+                                    				+ width + '/iw\\,' + height
+                                    				+ '/ih)[scaled]; [scaled]pad=' + width + ':'
+                                    				+ height + ':(' + width
+                                    				+ '-iw*min(' + width + '/iw\\,'
+                                    				+ height + '/ih))/2:('
+                                    				+ height + '-ih*min('
+                                    				+ width + '/iw\\,' + height
+                                    				+ '/ih))/2[padded]; [padded]setsar=1:1[out]\"';
+
                                                 // stitch
                                                 ffmpeg()
                                                     .input(audioFile.url())
@@ -62,7 +75,6 @@ var stitchSlide = (slide, outputFileName) => {
                                                     .videoCodec('libx264')
                                                     .fps(29.7)
                                                     .format('mp4')
-                                                    // .size('200x200')
                                                     .outputOptions([
                                                         '-c:v libx264',
                                                         '-preset slow',
@@ -70,7 +82,8 @@ var stitchSlide = (slide, outputFileName) => {
                                                         '-c:a aac',
                                                         '-strict experimental',
                                                         '-pix_fmt yuv420p',
-                                                        '-b:a 192k'
+                                                        '-b:a 192k',
+                                                        '-vf ' + resolution
                                                     ])
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
@@ -93,14 +106,10 @@ var stitchSlide = (slide, outputFileName) => {
                             var file = childResource.get('file');
                             Parse.Cloud.httpRequest({ url: file.url() }).then(function(response) {
                                 // The file contents are in response.buffer.
-                                console.log('httpRequest : response');
                                 var extension = path.extname(file.url())
-                                console.log(extension);
                                 var newFileName = fileUtils.getNewUniqueFileName(extension);
-                                console.log('newFileName : ' + newFileName)
                                 try {
                                     fs.writeFile(newFileName, response.buffer, 'binary', (error) => {
-                                        console.log('writeFile : returning');
                                         if(error) {
                                             console.log(error);
                                             reject(error);
@@ -108,10 +117,8 @@ var stitchSlide = (slide, outputFileName) => {
 
                                         // convert the video to a predefined format
                                         var outputVideo = fileUtils.getNewUniqueFileName('mp4');
-                                        console.log('outputVideo : ' + outputVideo);
                                         var width = 1080;
                                         var height = 720;
-                                        console.log('before');
                                         var resolution = '\"[in]scale=iw*min(' + width + '/iw\\,'
                             				+ width + '/ih):ih*min('
                             				+ width + '/iw\\,' + height
@@ -122,7 +129,6 @@ var stitchSlide = (slide, outputFileName) => {
                             				+ height + '-ih*min('
                             				+ width + '/iw\\,' + height
                             				+ '/ih))/2[padded]; [padded]setsar=1:1[out]\"';
-                                        console.log('after');
                                         var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -pix_fmt yuv420p ' + outputVideo;
                                         console.log('convert video command string : ' + command);
                                         exec(command, (error, stdout, stderr) => {
