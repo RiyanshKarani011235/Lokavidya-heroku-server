@@ -149,42 +149,63 @@ var stitchProject = (projectObject) => {
 }
 
 var binaryStitch = (fileUrls) => {
-    console.log('binaryStitch called with fileUrls : ');
-    console.log(fileUrls);
-    return new Promise((fulfill, reject) => {
-        if(fileUrls.length > 2) {
-            binaryStitch(fileUrls.slice(0, fileUrls.length/2)).then(
-                (filename1) => {
-                    binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length)).then(
-                        (filename2) => {
-                            binaryStitch([filename1, filename2]).then(
-                                (resultFileName) => {
-                                    fulfill(resultFileName);
-                                }
-                            );
-                        }
-                    );
-                }
-            );
-        } else if(fileUrls.length == 1) {
-            fulfill(fileUrls[0]);
-        } else {
-            var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-            console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
-            try {
-                var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
-                console.log(stitchCommandString);
-                exec(stitchCommandString, (error, stdout, stderr) => {
-                    console.log('stdout: ' + stdout);
-                    console.log('stderr: ' + stderr);
-                    if (error !== null) {
-                         console.log('exec error: ' + error);
-                    }
-                    fulfill(outputFile);
-                });
-            } catch (e) {console.log(e)}
-        }
+    // var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
+
+    var stitchCommandString = 'ls ';
+    for(var i=0; i<fileUrls.length; i++) {
+        stitchCommandString += fileUrls[i] + ' ';
+    }
+    stitchCommandString += '| perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
+    var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
+    try {
+        exec(stitchCommandString, (error, stdout, stderr) => {
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            if (error !== null) {
+                 console.log('exec error: ' + error);
+            }
+            fulfill(outputFile);
+        });
+    } catch (e) {console.log(e)}
+
+
+    // console.log('binaryStitch called with fileUrls : ');
+    // console.log(fileUrls);
+    // return new Promise((fulfill, reject) => {
+    //     if(fileUrls.length > 2) {
+    //         binaryStitch(fileUrls.slice(0, fileUrls.length/2)).then(
+    //             (filename1) => {
+    //                 binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length)).then(
+    //                     (filename2) => {
+    //                         binaryStitch([filename1, filename2]).then(
+    //                             (resultFileName) => {
+    //                                 fulfill(resultFileName);
+    //                             }
+    //                         );
+    //                     }
+    //                 );
+    //             }
+    //         );
+    //     } else if(fileUrls.length == 1) {
+    //         fulfill(fileUrls[0]);
+    //     } else {
+    //         var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
+    //         console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
+    //
+    //         try {
+    //             var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
+    //             console.log(stitchCommandString);
+    //             exec(stitchCommandString, (error, stdout, stderr) => {
+    //                 console.log('stdout: ' + stdout);
+    //                 console.log('stderr: ' + stderr);
+    //                 if (error !== null) {
+    //                      console.log('exec error: ' + error);
+    //                 }
+    //                 fulfill(outputFile);
+    //             });
+    //         } catch (e) {console.log(e)}
+    //     }
     });
 }
 
