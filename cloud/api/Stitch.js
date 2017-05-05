@@ -74,9 +74,12 @@ var stitchProject = (projectObject) => {
 			var slide = elements[count];
 
 			var stitchOneSlide = (slide) => {
+                console.log('stitchOneSlide : called');
 				slide.fetch().then(
 					() => {
+                        console.log('before get new unique file name');
 						var outputFileName = fileUtils.getNewUniqueFileName(mp4);
+                        console.log('after get new unique file name');
 						BaseResourceClass.stitchSlide(slide, outputFileName).then(
 							(stitchedFileName) => {
 								if(stitchedFileName) {
