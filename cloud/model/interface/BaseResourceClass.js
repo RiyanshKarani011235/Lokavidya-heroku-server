@@ -57,7 +57,7 @@ var stitchSlide = (slide, outputFileName) => {
 
                                                 var width = 800;
                                                 var height = 600;
-                                                var resolution = '\"[in]scale=iw*min(' + width + '/iw\\,'
+                                                var resolution = '[in]scale=iw*min(' + width + '/iw\\,'
                                     				+ width + '/ih):ih*min('
                                     				+ width + '/iw\\,' + height
                                     				+ '/ih)[scaled]; [scaled]pad=' + width + ':'
@@ -66,7 +66,7 @@ var stitchSlide = (slide, outputFileName) => {
                                     				+ height + '/ih))/2:('
                                     				+ height + '-ih*min('
                                     				+ width + '/iw\\,' + height
-                                    				+ '/ih))/2[padded]; [padded]setsar=1:1[out]\"';
+                                    				+ '/ih))/2[padded]; [padded]setsar=1:1[out]';
 
                                                 // stitch
                                                 ffmpeg()
