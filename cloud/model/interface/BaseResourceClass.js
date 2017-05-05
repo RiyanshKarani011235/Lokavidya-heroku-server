@@ -112,7 +112,7 @@ var stitchSlide = (slide, outputFileName) => {
                                         var width = 1080;
                                         var height = 720;
                                         console.log('before');
-                                        var resolution = '[in]scale=iw*min(' + width + '/iw\\,'
+                                        var resolution = '\"[in]scale=iw*min(' + width + '/iw\\,'
                             				+ width + '/ih):ih*min('
                             				+ width + '/iw\\,' + height
                             				+ '/ih)[scaled]; [scaled]pad=' + width + ':'
@@ -121,7 +121,7 @@ var stitchSlide = (slide, outputFileName) => {
                             				+ height + '/ih))/2:('
                             				+ height + '-ih*min('
                             				+ width + '/iw\\,' + height
-                            				+ '/ih))/2[padded]; [padded]setsar=1:1[out]';
+                            				+ '/ih))/2[padded]; [padded]setsar=1:1[out]\"';
                                         console.log('after');
                                         var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -b:a 192K -pix_fmt yuv420p -vf ' + resolution + ' -shortest ' + outputVideo;
                                         console.log('convert video command string : ' + command);
