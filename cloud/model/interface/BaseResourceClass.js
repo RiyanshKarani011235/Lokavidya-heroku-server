@@ -106,7 +106,7 @@ var stitchSlide = (slide, outputFileName) => {
 
                             });
                         } else if(childResource.className == 'Question') {
-                            // stitch question
+                            // TODO stitch question
                             fulfill();
                         }
                     }

@@ -61,10 +61,13 @@ Parse.Cloud.define('stitch', (request, response) => {
 
 var stitchProject = (projectObject) => {
 	var slides = projectObject.get('slides');
+    console.log(slides);
 	slides.fetch({
 		success: (slides) => {
+            console.log('slides : fetch : success');
 			var elements = slides.get('elements');
 
+			console.log(elements);
 			var stitchedFileNames = [];
 			var count = 0;
 			var numElements = elements.length;
