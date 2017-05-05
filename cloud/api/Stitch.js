@@ -152,24 +152,28 @@ var binaryStitch = (fileUrls) => {
 
     // var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
 
-    var stitchCommandString = 'ls ';
-    for(var i=0; i<fileUrls.length; i++) {
-        stitchCommandString += fileUrls[i] + ' ';
-    }
-    var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-    stitchCommandString += '| perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
-    console.log('stitch command string : ' + stitchCommandString);
-    try {
-        exec(stitchCommandString, (error, stdout, stderr) => {
-            console.log('stdout: ' + stdout);
-            console.log('stderr: ' + stderr);
-            if (error !== null) {
-                 console.log('exec error: ' + error);
-            }
-            fulfill(outputFile);
-        });
-    } catch (e) {console.log(e)}
-
+    return new Promise((fulfill, reject) => {
+        var stitchCommandString = 'ls ';
+        for(var i=0; i<fileUrls.length; i++) {
+            stitchCommandString += fileUrls[i] + ' ';
+        }
+        var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
+        stitchCommandString += '| perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
+        console.log('stitch command string : ' + stitchCommandString);
+        try {
+            exec(stitchCommandString, (error, stdout, stderr) => {
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                     console.log('exec error: ' + error);
+                }
+                fulfill(outputFile);
+            });
+        } catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    });
 
     // console.log('binaryStitch called with fileUrls : ');
     // console.log(fileUrls);
