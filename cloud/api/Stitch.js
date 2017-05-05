@@ -160,7 +160,9 @@ var binaryStitch = (fileUrls) => {
             fileNamesList += 'file ' + fileUrls[i] + '\n';
         }
         try {
-            exec('echo ' + fileNamesList + ' >> ' + textFile, (error, stdout, stderr) => {
+            var commandString = 'echo \"' + fileNamesList + '\" >> ' + textFile;
+            console.log(commandString);
+            exec(commandString , (error, stdout, stderr) => {
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
                 if (error !== null) {
