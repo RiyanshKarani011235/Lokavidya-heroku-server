@@ -206,7 +206,7 @@ var binaryStitch = (fileUrls) => {
     //             });
     //         } catch (e) {console.log(e)}
     //     }
-    });
+    // });
 }
 
 var onPostStitch = (finalOutputFile) => {
