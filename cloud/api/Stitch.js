@@ -154,20 +154,29 @@ var binaryStitch = (fileUrls) => {
 
     return new Promise((fulfill, reject) => {
         var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-        var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i\n';
+        var textFile = fileUtils.getNewUniqueFileName('txt');
+        var fileNamesList = '';
         for(var i=0; i<fileUrls.length; i++) {
-            stitchCommandString += ' file \'' + fileUrls[i] + '\'\n';
+            fileNamesList += 'file ' + fileUrls[i] + '\n';
         }
-        stitchCommandString += ' -c copy ' + outputFile;
-        console.log('stitch command string : ' + stitchCommandString);
         try {
-            exec(stitchCommandString, (error, stdout, stderr) => {
+            exec('echo ' + fileNamesList + ' >> ' + textFile, (error, stdout, stderr) => {
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
                 if (error !== null) {
                      console.log('exec error: ' + error);
                 }
-                fulfill(outputFile);
+
+                var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i ' + textFile + ' -c copy ' + outputFile;
+                console.log('stitch command string : ' + stitchCommandString);
+                exec(stitchCommandString, (error, stdout, stderr) => {
+                    console.log('stdout: ' + stdout);
+                    console.log('stderr: ' + stderr);
+                    if (error !== null) {
+                         console.log('exec error: ' + error);
+                    }
+                    fulfill(outputFile);
+                });
             });
         } catch (e) {
             console.log(e);
