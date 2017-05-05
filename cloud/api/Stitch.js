@@ -213,7 +213,7 @@ var deleteAllTempFiles = () => {
 }
 
 var onStitchComplete = (projectObject) => {
-    deleteAllTempFiles();
+    // deleteAllTempFiles();
 
   	var user = projectObject.get('user');
   	user.fetch().then(
