@@ -55,19 +55,6 @@ var stitchSlide = (slide, outputFileName) => {
                                                 console.log(audioFile);
                                                 console.log(imageFile);
 
-                                                var width = 800;
-                                                var height = 600;
-                                                var resolution = '[in]scale=iw*min(' + width + '/iw\\,'
-                                    				+ width + '/ih):ih*min('
-                                    				+ width + '/iw\\,' + height
-                                    				+ '/ih)[scaled]; [scaled]pad=' + width + ':'
-                                    				+ height + ':(' + width
-                                    				+ '-iw*min(' + width + '/iw\\,'
-                                    				+ height + '/ih))/2:('
-                                    				+ height + '-ih*min('
-                                    				+ width + '/iw\\,' + height
-                                    				+ '/ih))/2[padded]; [padded]setsar=1:1[out]';
-
                                                 // stitch
                                                 ffmpeg()
                                                     .input(audioFile.url())
@@ -82,9 +69,10 @@ var stitchSlide = (slide, outputFileName) => {
                                                         '-c:a aac',
                                                         '-strict experimental',
                                                         '-pix_fmt yuv420p',
-                                                        '-b:a 192k',
-                                                        '-vf ' + resolution
+                                                        '-b:a 192k'
                                                     ])
+                                                    .size('800x?')
+                                                    .autopad()
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
                                                     })
@@ -117,8 +105,8 @@ var stitchSlide = (slide, outputFileName) => {
 
                                         // convert the video to a predefined format
                                         var outputVideo = fileUtils.getNewUniqueFileName('mp4');
-                                        var width = 1080;
-                                        var height = 720;
+                                        var width = 800;
+                                        var height = '?';
                                         var resolution = '\"[in]scale=iw*min(' + width + '/iw\\,'
                             				+ width + '/ih):ih*min('
                             				+ width + '/iw\\,' + height
