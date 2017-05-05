@@ -1,17 +1,18 @@
+var path = require('path');
+var fs = require('fs');
+
 var tempOutputFilesDir = path.join(__dirname, '..', '..', '..', 'outputFiles');
-console.log(tempOutputFilesDir);
 var getNewUniqueFileName = (extension) => {
-    var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
+    var filePath = path.join(tempOutputFilesDir, randomString(16, 'aA#'));
     if(extension) {
         filePath += '.' + extension;
     }
     while(fs.existsSync(filePath)) {
-        var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
+        var filePath = path.join(tempOutputFilesDir, randomString(16, 'aA#'));
         if(extension) {
             filePath += '.' + extension;
         }
     }
-    console.log('generated new unique file : ' + filePath);
     return filePath;
 }
 
