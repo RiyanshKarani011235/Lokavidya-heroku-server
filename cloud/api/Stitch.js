@@ -153,12 +153,12 @@ var binaryStitch = (fileUrls) => {
     // var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
 
     return new Promise((fulfill, reject) => {
-        var stitchCommandString = 'ls ';
-        for(var i=0; i<fileUrls.length; i++) {
-            stitchCommandString += fileUrls[i] + ' ';
-        }
         var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-        stitchCommandString += '| perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
+        var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0';
+        for(var i=0; i<fileUrls.length; i++) {
+            stitchCommandString += ' -i' + fileUrls[i];
+        }
+        stitchCommandString += ' -c copy ' + outputFile;
         console.log('stitch command string : ' + stitchCommandString);
         try {
             exec(stitchCommandString, (error, stdout, stderr) => {
