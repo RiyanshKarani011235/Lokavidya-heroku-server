@@ -96,14 +96,24 @@ var stitchSlide = (slide, outputFileName) => {
                                             console.log(error);
                                             reject(error);
                                         }
-                                        console.log('fulfilling');
-                                        fulfill(newFileName);
+
+                                        // convert the video to a predefined format
+                                        var outputVideo = fileUtils.getNewUniqueFileName('mp4');
+                                        var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -b:a 192K ' + outputFile;
+                                        console.log('convert video command string : ' + stitchCommandString);
+                                        exec(command, (error, stdout, stderr) => {
+                                            console.log('stdout: ' + stdout);
+                                            console.log('stderr: ' + stderr);
+                                            if (error !== null) {
+                                                 console.log('exec error: ' + error);
+                                            }
+                                            fulfill(outputvideo);
+                                        });
                                     });
                                 } catch (e) {
                                     console.log(e);
-                                    throw e;
+                                    reject(e);
                                 }
-
                             });
                         } else if(childResource.className == 'Question') {
                             // TODO stitch question
