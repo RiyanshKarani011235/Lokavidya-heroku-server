@@ -156,8 +156,8 @@ var binaryStitch = (fileUrls) => {
     for(var i=0; i<fileUrls.length; i++) {
         stitchCommandString += fileUrls[i] + ' ';
     }
-    stitchCommandString += '| perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
     var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
+    stitchCommandString += '| perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
     try {
         exec(stitchCommandString, (error, stdout, stderr) => {
             console.log('stdout: ' + stdout);
