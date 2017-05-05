@@ -123,7 +123,7 @@ var stitchSlide = (slide, outputFileName) => {
                             				+ '/ih))/2[padded]; [padded]setsar=1:1[out]';
                                         console.log('after');
                                         var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -b:a 192K -pix_fmt yuv420p -vf ' + resolution + ' -shortest ' + outputVideo;
-                                        console.log('convert video command string : ' + stitchCommandString);
+                                        console.log('convert video command string : ' + command);
                                         exec(command, (error, stdout, stderr) => {
                                             console.log('stdout: ' + stdout);
                                             console.log('stderr: ' + stderr);
