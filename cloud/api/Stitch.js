@@ -154,9 +154,9 @@ var binaryStitch = (fileUrls) => {
 
     return new Promise((fulfill, reject) => {
         var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-        var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0';
+        var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i\n';
         for(var i=0; i<fileUrls.length; i++) {
-            stitchCommandString += ' -i ' + fileUrls[i];
+            stitchCommandString += ' file \'' + fileUrls[i] + '\'\n';
         }
         stitchCommandString += ' -c copy ' + outputFile;
         console.log('stitch command string : ' + stitchCommandString);
