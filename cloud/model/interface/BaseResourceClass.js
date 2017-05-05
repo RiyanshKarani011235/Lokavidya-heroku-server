@@ -8,7 +8,7 @@ var FileAPI = require('file-api')
   , FileList = FileAPI.FileList
   , FileReader = FileAPI.FileReader
   ;
-var fileUtils = require('../utils/FileUtils.js');
+var fileUtils = require('../../utils/FileUtils.js');
 
 
 var BaseParseClass = require('./BaseParseClass');
