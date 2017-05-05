@@ -131,7 +131,7 @@ var stitchSlide = (slide, outputFileName) => {
                                             if (error !== null) {
                                                  console.log('exec error: ' + error);
                                             }
-                                            fulfill(outputvideo);
+                                            fulfill(outputVideo);
                                         });
                                     });
                                 } catch (e) {
