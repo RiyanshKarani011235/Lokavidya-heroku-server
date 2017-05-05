@@ -10,6 +10,7 @@ var FileAPI = require('file-api')
   ;
 var fileUtils = require('../../utils/FileUtils.js');
 var BaseParseClass = require('./BaseParseClass');
+var exec = require('child_process').exec;
 
 var configDir = path.join(__dirname, '..', '..', '..', 'config');
 var data = fs.readFileSync(path.join(configDir, 'ffmpeg_config.json'));
