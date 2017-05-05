@@ -15,6 +15,7 @@ var FileAPI = require('file-api')
   , FileReader = FileAPI.FileReader
   ;
 var exec = require('child_process').exec;
+var fileUtils = require('../utils/FileUtils.js');
 
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
@@ -64,7 +65,6 @@ var stitchProject = (projectObject) => {
 		success: (slides) => {
 			var elements = slides.get('elements');
 
-			console.log(elements);
 			var stitchedFileNames = [];
 			var count = 0;
 			var numElements = elements.length;
@@ -73,13 +73,12 @@ var stitchProject = (projectObject) => {
 			var stitchOneSlide = (slide) => {
 				slide.fetch().then(
 					() => {
-						var outputFileName = path.join(tempOutputFilesDir, 'output' + count + '.mp4');
+						var outputFileName = fileUtils.getNewUniqueFileName(mp4);
 						BaseResourceClass.stitchSlide(slide, outputFileName).then(
 							(stitchedFileName) => {
 								if(stitchedFileName) {
 									// not falsey
                                     if(stitchedFileName) {
-                                        console.log('pushing')
                                         stitchedFileNames.push(stitchedFileName);
                                     } else {
 
@@ -94,20 +93,18 @@ var stitchProject = (projectObject) => {
 								} else {
                                     console.log(stitchedFileNames);
                                     binaryStitch(stitchedFileNames).then(
-									// // all elements done
-									// stitchFinalVideo(stitchedFileNames).then(
+                                        // all elements done
 										(file) => {
+                                            // TODO here, instead of getting a new Parse File,
+                                            // we have to send the video file to server, get back
+                                            // the Video URL and save it in our database
                                             onPostStitch(file).then(
                                                 (file) => {
-                                                    console.log('fulfilled');
         											file.save().then(
         												() => {
-        													console.log('thenthen');
         													console.log(projectObject);
         													projectObject.set('project_video', file);
                                                             projectObject.set('video_path', file.url());
-        													console.log('thenthen');
-
         													projectObject.save().then(
         														() => {
         															console.log('stitching complete ;)');
@@ -140,10 +137,7 @@ var stitchProject = (projectObject) => {
 			}
 
 			stitchOneSlide(slide);
-
-			console.log(stitchedSlides);
-		}, error: () => {
-		}
+		}, error: () => {}
 	});
 }
 
@@ -168,11 +162,11 @@ var binaryStitch = (fileUrls) => {
         } else if(fileUrls.length == 1) {
             fulfill(fileUrls[0]);
         } else {
-            var outputFile = getNewUniqueFileName('mp4');
+            var outputFile = fileUtils.getNewUniqueFileName('mp4');
             console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
 
             try {
-                var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ffmpeg -y -f concat -safe 0 -i - -c copy ' + outputFile;
+                var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
                 console.log(stitchCommandString);
                 exec(stitchCommandString, (error, stdout, stderr) => {
                     console.log('stdout: ' + stdout);
@@ -183,19 +177,6 @@ var binaryStitch = (fileUrls) => {
                     fulfill(outputFile);
                 });
             } catch (e) {console.log(e)}
-
-
-            // ffmpeg()
-            //     .input(fileUrls[0])
-            //     .input(fileUrls[1])
-            //     .on('stderr', function(stderrLine) {
-            //         console.log('Stderr output: ' + stderrLine);
-            //     })
-            //     .on('end', function(stdout, stderr) {
-            //         console.log('Transcoding succeeded !');
-            //         fulfill(outputFile);
-            //     })
-            //     .mergeToFile(outputFile, tempOutputFilesDir);
         }
     });
 }
@@ -213,21 +194,6 @@ var onPostStitch = (finalOutputFile) => {
     });
 }
 
-var getNewUniqueFileName = (extension) => {
-    var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
-    if(extension) {
-        filePath += '.' + extension;
-    }
-    while(fs.existsSync(filePath)) {
-        var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
-        if(extension) {
-            filePath += '.' + extension;
-        }
-    }
-    console.log('generated new unique file : ' + filePath);
-    return filePath;
-}
-
 var deleteAllTempFiles = () => {
     try {
         var files = fs.readdirSync(tempOutputFilesDir);
@@ -239,57 +205,15 @@ var deleteAllTempFiles = () => {
     } catch (e) {console.log(e)}
 }
 
-var randomString = (length, chars) => {
-    var mask = '';
-    if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
-    if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    if (chars.indexOf('#') > -1) mask += '0123456789';
-    if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
-    var result = '';
-    for (var i = length; i > 0; --i) result += mask[Math.floor(Math.random() * mask.length)];
-    return result;
-}
-
-var stitchFinalVideo = (stitchedFileNames) => {
-	return new Promise((fulfill, reject) => {
-		inputOptionsArray = [];
-		for(var i=1; i<stitchedFileNames.length; i++) {
-			inputOptionsArray.push('-i ' + stitchedFileNames[i]);
-		}
-		ffmpeg()
-			.input(stitchedFileNames[0])
-			.inputOptions(inputOptionsArray)
-			.videoCodec('libx264')
-            .inputOptions('-vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"')
-			.output('./outputFiles/finalvideo.mp4')
-			.on('stderr', function(stderrLine) {
-				console.log('Stderr output: ' + stderrLine);
-			})
-			.on('end', function(stdout, stderr) {
-				console.log('Transcoding succeeded !');
-
-				var reader = new FileReader();
-				reader.onload = function () {
-					var base64String = reader.result.split(',')[1];
-					var file = new Parse.File("myfile.mp4", { base64: base64String});
-					console.log('before fulfilling');
-					fulfill(file);
-				}
-				reader.readAsDataURL(new File('./outputFiles/finalvideo.mp4'));
-			})
-			// .mergeToFile('./outputFiles/finalvideo.mp4', './outputFiles');
-			.run();
-	})
-}
-
 var onStitchComplete = (projectObject) => {
-    // deleteAllTempFiles();
+    deleteAllTempFiles();
 
   	var user = projectObject.get('user');
   	user.fetch().then(
 	  	() => {
 		  	var pushQuery = new Parse.Query(Parse.Installation);
 		  	pushQuery.equalTo('user', user);
+            pushQuery.equalTo('deviceType', 'android');
 
 		  	//Set push query
 			Parse.Push.send({
