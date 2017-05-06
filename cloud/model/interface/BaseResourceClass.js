@@ -147,7 +147,8 @@ var stitchSlide = (slide, outputFileName) => {
                                                 fulfill({
                                                     'type': 'video',
                                                     'data': outputVideo
-                                                });
+                                                })
+                                            })
                                             .run();
                                     });
                                 } catch (e) {
