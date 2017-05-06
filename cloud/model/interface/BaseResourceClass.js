@@ -75,7 +75,6 @@ var stitchSlide = (slide, outputFileName) => {
                                                         '-crf 22',
                                                         '-c:a aac',
                                                         '-strict experimental',
-                                                        '-pix_fmt yuv420p',
                                                         '-b:a 192k'
                                                     ])
 
@@ -131,7 +130,6 @@ var stitchSlide = (slide, outputFileName) => {
                                                 '-crf 22',
                                                 '-c:a aac',
                                                 '-strict experimental',
-                                                '-pix_fmt yuv420p',
                                                 '-b:a 192k'
                                             ])
 

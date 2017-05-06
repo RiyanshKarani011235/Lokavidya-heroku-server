@@ -189,6 +189,7 @@ var binaryStitch = (fileUrls) => {
 
                 var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y concat -i ' + textFile + ' -c copy ' + outputFile;
                 console.log('stitch command string : ' + stitchCommandString);
+
                 exec(stitchCommandString, (error, stdout, stderr) => {
                     console.log('stdout: ' + stdout);
                     console.log('stderr: ' + stderr);
@@ -268,7 +269,7 @@ var deleteAllTempFiles = () => {
 }
 
 var onStitchComplete = (projectObject) => {
-    // deleteAllTempFiles();
+    deleteAllTempFiles();
 
   	var user = projectObject.get('user');
   	user.fetch().then(
