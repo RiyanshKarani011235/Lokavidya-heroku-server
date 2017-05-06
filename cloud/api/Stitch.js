@@ -70,6 +70,7 @@ var stitchProject = (projectObject) => {
 
 			console.log(elements);
 			var stitchedFileNames = [];
+            var questions = [];
 			var count = 0;
 			var numElements = elements.length;
 			var slide = elements[count];
@@ -82,23 +83,24 @@ var stitchProject = (projectObject) => {
 						var outputFileName = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
                         console.log('after get new unique file name');
 						BaseResourceClass.stitchSlide(slide, outputFileName).then(
-							(stitchedFileName) => {
-								if(stitchedFileName) {
-									// not falsey
-                                    if(stitchedFileName) {
-                                        stitchedFileNames.push(stitchedFileName);
-                                    } else {
-
+                            (output) => {
+                                if(output) {
+                                    if(output.type === 'video') {
+                                        stitchedFileNames.push(output.data);
+                                    } else if(output.type === 'question') {
+                                        questions.push(output.data);
                                     }
-									console.log(stitchedFileNames);
-								}
+                                }
 								count += 1;
 								if(count !== numElements) {
 									// stitch next element
 									slide = elements[count];
 									stitchOneSlide(slide);
 								} else {
+                                    console.log('--------------------------------');
                                     console.log(stitchedFileNames);
+                                    console.log(questions);
+                                    console.log('--------------------------------');
                                     binaryStitch(stitchedFileNames).then(
                                         // all elements done
 										(file) => {

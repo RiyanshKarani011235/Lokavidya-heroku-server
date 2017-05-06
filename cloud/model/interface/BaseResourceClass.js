@@ -85,7 +85,10 @@ var stitchSlide = (slide, outputFileName) => {
                                                     })
                                                     .on('end', function(stdout, stderr) {
                                                         console.log('Transcoding succeeded !');
-                                                        fulfill(outputFileName);
+                                                        fulfill({
+                                                            'type': 'video',
+                                                            'data': outputFileName
+                                                        });
                                                     })
                                                     .run();
                                             }
@@ -141,8 +144,10 @@ var stitchSlide = (slide, outputFileName) => {
                                             })
                                             .on('end', function(stdout, stderr) {
                                                 console.log('Transcoding succeeded !');
-                                                fulfill(outputVideo);
-                                            })
+                                                fulfill({
+                                                    'type': 'video',
+                                                    'data': outputVideo
+                                                });
                                             .run();
                                     });
                                 } catch (e) {
@@ -152,7 +157,10 @@ var stitchSlide = (slide, outputFileName) => {
                             });
                         } else if(childResource.className == 'Question') {
                             // TODO stitch question
-                            fulfill();
+                            fulfill({
+                                'type': 'question',
+                                'data': childResource
+                            });
                         }
                     }
                 );
