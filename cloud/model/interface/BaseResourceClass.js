@@ -111,7 +111,7 @@ var stitchSlide = (slide, outputFileName) => {
                                         }
 
                                         var outputVideo = fileUtils.getNewUniqueFileName('mp4');
-                                        
+
                                         // convert the video to a predefined format
                                         ffmpeg()
                                             // input
@@ -144,17 +144,6 @@ var stitchSlide = (slide, outputFileName) => {
                                                 fulfill(outputVideo);
                                             })
                                             .run();
-
-                                        // var command = ffmpegConfig.FFMPEG_PATH + ' -y -i ' + newFileName + ' -c:v libx264 -c:a aac -strict experimental -pix_fmt yuv420p ' + outputVideo;
-                                        // console.log('convert video command string : ' + command);
-                                        // exec(command, (error, stdout, stderr) => {
-                                        //     console.log('stdout: ' + stdout);
-                                        //     console.log('stderr: ' + stderr);
-                                        //     if (error !== null) {
-                                        //          console.log('exec error: ' + error);
-                                        //     }
-                                        //     fulfill(outputVideo);
-                                        // });
                                     });
                                 } catch (e) {
                                     console.log(e);

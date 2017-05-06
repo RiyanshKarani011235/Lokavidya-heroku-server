@@ -149,10 +149,28 @@ var stitchProject = (projectObject) => {
 }
 
 var binaryStitch = (fileUrls) => {
+    return new Promise((fulfill, reject) => {
+        var outputFile = fileUrls.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
+        var command = ffmpeg();
+        for(var i=0; i<fileUrls.length; i++) {
+            command = command.input(fileUrls[i]);
+        }
+        command
+            .on('error', (err) => {
+                console.log('An error occurred: ' + err.message);
+                reject(err);
+            })
+            .on('end', () => {
+                console.log('Merging finished !');
+                fulfill(outputFile);
+            })
+            .mergeToFile(outputFile, tempOutputFilesDir);
+    });
 
     // var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
 
-    return new Promise((fulfill, reject) => {
+    /*return new Promise((fulfill, reject) => {
+
         var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
         var textFile = fileUtils.getNewUniqueFileName('txt');
         var fileNamesList = '';
@@ -169,7 +187,7 @@ var binaryStitch = (fileUrls) => {
                      console.log('exec error: ' + error);
                 }
 
-                var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i ' + textFile + ' -c copy ' + outputFile;
+                var stitchCommandString = ffmpegConfig.FFMPEG_PATH + ' -y concat -i ' + textFile + ' -c copy ' + outputFile;
                 console.log('stitch command string : ' + stitchCommandString);
                 exec(stitchCommandString, (error, stdout, stderr) => {
                     console.log('stdout: ' + stdout);
@@ -184,7 +202,7 @@ var binaryStitch = (fileUrls) => {
             console.log(e);
             reject(e);
         }
-    });
+    });*/
 
     // console.log('binaryStitch called with fileUrls : ');
     // console.log(fileUrls);
