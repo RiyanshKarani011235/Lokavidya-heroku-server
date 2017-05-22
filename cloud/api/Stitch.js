@@ -192,9 +192,9 @@ var stitchQuestions = (questionsArray) => {
 var onPostStitch = (videoFile, questionFile, projectObject) => {
 
     return new Promise((fulfill, reject) => {
-        saveFileAsParseFile(videoFile, 'mp4').then(
+        saveVideoFileAsParseFile(videoFile).then(
             (parseVideoFile) => {
-                saveFileAsParseFile(questionFile, 'json').then(
+                saveJsonFileAsParseFile(questionFile).then(
                     (parseQuestionsFile) => {
                         projectObject.set('project_video', parseVideoFile);
                         projectObject.set('video_path', parseVideoFile.url());
@@ -216,17 +216,31 @@ var onPostStitch = (videoFile, questionFile, projectObject) => {
     });
 }
 
-var saveFileAsParseFile = (file, extension) => {
+var saveVideoFileAsParseFile = (file) => {
     return new Promise((fulfill, reject) => {
         var reader = new FileReader();
         reader.onload = () => {
             var base64String = reader.result.split(',')[1];
-            var parseFile = new Parse.File("file." + extension, { base64: base64String});
+            var parseFile = new Parse.File('file.mp4', { base64: base64String});
             fulfill(parseFile);
         }
         reader.readAsDataURL(new File(file));
     });
 }
+
+var saveJsonFileAsParseFile = (file) => {
+    return new Promise((fulfill, reject) => {
+        var reader = new FileReader();
+        reader.onload = () => {
+            var base64String = reader.result.split(',')[1];
+            var parseFile = new Parse.File('file.json', { base64: base64String});
+            fulfill(parseFile);
+        }
+        reader.readAsDataURL(new File(file));
+    });
+}
+
+var saveJsonFileAsParseFile
 
 var deleteAllTempFiles = () => {
     try {
