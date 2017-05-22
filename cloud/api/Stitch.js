@@ -114,6 +114,7 @@ var stitchProject = (projectObject) => {
         													console.log(projectObject);
         													projectObject.set('project_video', file);
                                                             projectObject.set('video_path', file.url());
+                                                            projectObject.set('questions', questions);
         													projectObject.save().then(
         														() => {
         															console.log('stitching complete ;)');

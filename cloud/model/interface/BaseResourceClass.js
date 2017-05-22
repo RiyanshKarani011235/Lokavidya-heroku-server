@@ -158,9 +158,30 @@ var stitchSlide = (slide, outputFileName) => {
                             });
                         } else if(childResource.className == 'Question') {
                             // TODO stitch question
+                            var questionObject = {};
+                            questionObject.id = 1;          // TODO
+                            questionObject.type = 'mcq';
+                            questionObject.time = 0;        // TODO
+                            questionObject.question = childResource.question_string;
+                            questionObject.skippable = false;
+                            questionObject.hint = "";       // TODO
+
+                            questionObject.options = [];
+                            for(var i=0; i<childResource.options.length; i++) {
+                                questionObject.options.push({
+                                    'id': i,
+                                    'option': childResource.options[i]
+                                });
+                            }
+
+                            questionObject.answer = [];
+                            for(var i=0; i<childResource.correct_options.length; i++) {
+                                questionObject.answer.push(questionObject.options[childResource.correct_options[i]])
+                            }
+
                             fulfill({
                                 'type': 'question',
-                                'data': childResource
+                                'data': questionObject
                             });
                         }
                     }
