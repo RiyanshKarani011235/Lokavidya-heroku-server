@@ -157,38 +157,31 @@ var stitchSlide = (slide, outputFileName) => {
                                 }
                             });
                         } else if(childResource.className == 'Question') {
-                            console.log('hllllllllllllllllllllllllllllllllllllllllllll');
-                            // TODO stitch question
                             var questionObject = {};
                             questionObject.id = 1;          // TODO
                             questionObject.type = 'mcq';
                             questionObject.time = 0;        // TODO
                             questionObject.question = childResource.get('question_string');
                             questionObject.skippable = false;
-                            questionObject.hint = "";       // TODO
 
-                            console.log('hllllllllllllllllllllllllllllllllllllllllllll');
-
+                            var hintString = "";
+                            for(var i=0; i<childResource.get('hints').length; i++) {
+                                hintString += childResource.get('hints')[i] + '\n';
+                            }
+                            questionObject.hint = hintString;
 
                             questionObject.options = [];
                             for(var i=0; i<childResource.get('options').length; i++) {
-                                console.log('pushing');
                                 questionObject.options.push({
                                     'id': i,
                                     'option': childResource.get('options')[i]
                                 });
-                                console.log('done pushing');
                             }
-                            console.log('hllllllllllllllllllllllllllllllllllllllllllll');
-
 
                             questionObject.answer = [];
                             for(var i=0; i<childResource.get('correct_options').length; i++) {
                                 questionObject.answer.push(questionObject.options[childResource.get('correct_options')[i]]);
                             }
-                            console.log(questionObject.options);
-                            console.log(questionObject.answer);
-                            console.log('hllllllllllllllllllllllllllllllllllllllllllll');
 
                             fulfill({
                                 'type': 'question',

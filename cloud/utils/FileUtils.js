@@ -1,7 +1,7 @@
 var path = require('path');
 var fs = require('fs');
+const tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
 
-var tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
 var getNewUniqueFileName = (extension) => {
     var filePath = path.join(tempOutputFilesDir, randomString(16, 'aA#'));
     if(extension) {
@@ -27,6 +27,11 @@ var randomString = (length, chars) => {
     return result;
 }
 
+var getNewUniqueTempFolder = () => {
+    return tempOutputFilesDir;
+}
+
 module.exports = {
-    getNewUniqueFileName
+    getNewUniqueFileName,
+    getNewUniqueTempFolder
 }

@@ -20,7 +20,7 @@ var fileUtils = require('../utils/FileUtils.js');
 var BaseResourceClass = require('../model/interface/BaseResourceClass.js');
 
 // constants
-const tempOutputFilesDir = path.join(__dirname, '..', '..', 'outputFiles');
+const tempOutputFilesDir = fileUtils.getNewUniqueTempFolder();
 const VIDEO_FILE_EXTENSION = 'mp4';
 
 // variables
@@ -107,7 +107,8 @@ var stitchProject = (projectObject) => {
                                             // TODO here, instead of getting a new Parse File,
                                             // we have to send the video file to server, get back
                                             // the Video URL and save it in our database
-                                            onPostStitch(file).then(
+                                            // also decicde
+                                            onPostStitchVideo(file).then(
                                                 (file) => {
         											file.save().then(
         												() => {
@@ -123,8 +124,6 @@ var stitchProject = (projectObject) => {
         															console.log(error);
         														}
         													);
-        													console.log('thenthen');
-
         												}, (error) => {
         													console.log(error);
         												}
@@ -228,7 +227,7 @@ var binaryStitch = (fileUrls) => {
     // });
 }
 
-var onPostStitch = (finalOutputFile) => {
+var onPostStitchVideo = (finalOutputFile) => {
     return new Promise((fulfill, reject) => {
         var reader = new FileReader();
         reader.onload = () => {
@@ -253,7 +252,8 @@ var deleteAllTempFiles = () => {
 }
 
 var onStitchComplete = (projectObject) => {
-    // deleteAllTempFiles();
+    // delete all temporary files created in the process of stitching
+    deleteAllTempFiles();
 
   	var user = projectObject.get('user');
   	user.fetch().then(
@@ -282,4 +282,19 @@ var onStitchComplete = (projectObject) => {
 
 	  }
   )
+}
+
+var stitchQuestions = (questionsArray) => {
+    return new Promise((fulfill, reject) => {
+        quizJsonFile = fileUtils.getNewUniqueFileName('json');
+        fs.writeFileSync(
+            quizJsonFile,
+            {
+                'quiz': {
+                    'questions': questionsArray
+                }
+            }.toString()
+        );
+        fulfill(quizJsonFile);
+    });
 }
