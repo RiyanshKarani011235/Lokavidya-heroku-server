@@ -163,7 +163,7 @@ var stitchSlide = (slide, outputFileName) => {
                             questionObject.id = 1;          // TODO
                             questionObject.type = 'mcq';
                             questionObject.time = 0;        // TODO
-                            questionObject.question = childResource.question_string;
+                            questionObject.question = childResource.get('question_string');
                             questionObject.skippable = false;
                             questionObject.hint = "";       // TODO
 
@@ -186,6 +186,8 @@ var stitchSlide = (slide, outputFileName) => {
                             for(var i=0; i<childResource.get('correct_options').length; i++) {
                                 questionObject.answer.push(questionObject.options[childResource.get('correct_options')[i]]);
                             }
+                            console.log(questionObject.options);
+                            console.log(questionObject.answer);
                             console.log('hllllllllllllllllllllllllllllllllllllllllllll');
 
                             fulfill({
