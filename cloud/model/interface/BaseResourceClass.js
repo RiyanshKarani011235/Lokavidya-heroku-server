@@ -157,6 +157,7 @@ var stitchSlide = (slide, outputFileName) => {
                                 }
                             });
                         } else if(childResource.className == 'Question') {
+                            console.log('hllllllllllllllllllllllllllllllllllllllllllll');
                             // TODO stitch question
                             var questionObject = {};
                             questionObject.id = 1;          // TODO
@@ -173,11 +174,14 @@ var stitchSlide = (slide, outputFileName) => {
                                     'option': childResource.options[i]
                                 });
                             }
+                            console.log('hllllllllllllllllllllllllllllllllllllllllllll');
+
 
                             questionObject.answer = [];
                             for(var i=0; i<childResource.correct_options.length; i++) {
                                 questionObject.answer.push(questionObject.options[childResource.correct_options[i]])
                             }
+                            console.log('hllllllllllllllllllllllllllllllllllllllllllll');
 
                             fulfill({
                                 'type': 'question',
