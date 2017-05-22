@@ -171,11 +171,11 @@ var stitchSlide = (slide, outputFileName) => {
 
 
                             questionObject.options = [];
-                            for(var i=0; i<childResource.options.length; i++) {
+                            for(var i=0; i<childResource.get('options').length; i++) {
                                 console.log('pushing');
                                 questionObject.options.push({
                                     'id': i,
-                                    'option': childResource.options[i]
+                                    'option': childResource.get('options')[i]
                                 });
                                 console.log('done pushing');
                             }
@@ -183,8 +183,8 @@ var stitchSlide = (slide, outputFileName) => {
 
 
                             questionObject.answer = [];
-                            for(var i=0; i<childResource.correct_options.length; i++) {
-                                questionObject.answer.push(questionObject.options[childResource.correct_options[i]])
+                            for(var i=0; i<childResource.get('correct_options').length; i++) {
+                                questionObject.answer.push(questionObject.options[childResource.get('correct_options')[i]]);
                             }
                             console.log('hllllllllllllllllllllllllllllllllllllllllllll');
 
