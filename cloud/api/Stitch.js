@@ -60,6 +60,7 @@ Parse.Cloud.define('stitch', (request, response) => {
 	});
 });
 
+// TODO add promise here
 var stitchProject = (projectObject) => {
 	var slides = projectObject.get('slides');
     console.log(slides);
@@ -101,37 +102,21 @@ var stitchProject = (projectObject) => {
                                     console.log(stitchedFileNames);
                                     console.log(questions);
                                     console.log('--------------------------------');
-                                    binaryStitch(stitchedFileNames).then(
+                                    stitchVideos(stitchedFileNames).then(
                                         // all elements done
-										(file) => {
-                                            // TODO here, instead of getting a new Parse File,
-                                            // we have to send the video file to server, get back
-                                            // the Video URL and save it in our database
-                                            // also decicde
-                                            onPostStitchVideo(file).then(
-                                                (file) => {
-        											file.save().then(
-        												() => {
-        													console.log(projectObject);
-        													projectObject.set('project_video', file);
-                                                            projectObject.set('video_path', file.url());
-                                                            projectObject.set('questions', questions);
-        													projectObject.save().then(
-        														() => {
-        															console.log('stitching complete ;)');
-        															onStitchComplete(projectObject);
-        														}, (error) => {
-        															console.log(error);
-        														}
-        													);
-        												}, (error) => {
-        													console.log(error);
-        												}
-        											);
-                                                }, (error) => {
-                                                    console.log(error);
+										(stitchedVideoFile) => {
+                                            stitchQuestions(questions).then(
+                                                (stitchedQuestionsFile) => {
+                                                    onPostStitch(stitchedVideoFile, stitchedQuestionsFile, projectObject).then(
+                                                        () => {
+                                                            onDone(projectObject);
+                                                        }, (error) => {
+                                                            console.log(error);
+                                                        }
+                                                    );
+
                                                 }
-                                            )
+                                            );
 										}, (error) => {
 											console.log(error);
 										}
@@ -150,7 +135,7 @@ var stitchProject = (projectObject) => {
 	});
 }
 
-var binaryStitch = (fileUrls) => {
+var stitchVideos = (fileUrls) => {
 
     // var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
 
@@ -187,56 +172,59 @@ var binaryStitch = (fileUrls) => {
             reject(e);
         }
     });
-
-    // console.log('binaryStitch called with fileUrls : ');
-    // console.log(fileUrls);
-    // return new Promise((fulfill, reject) => {
-    //     if(fileUrls.length > 2) {
-    //         binaryStitch(fileUrls.slice(0, fileUrls.length/2)).then(
-    //             (filename1) => {
-    //                 binaryStitch(fileUrls.slice(fileUrls.length/2, fileUrls.length)).then(
-    //                     (filename2) => {
-    //                         binaryStitch([filename1, filename2]).then(
-    //                             (resultFileName) => {
-    //                                 fulfill(resultFileName);
-    //                             }
-    //                         );
-    //                     }
-    //                 );
-    //             }
-    //         );
-    //     } else if(fileUrls.length == 1) {
-    //         fulfill(fileUrls[0]);
-    //     } else {
-    //         var outputFile = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-    //         console.log('stitching files : ' + fileUrls[0] + ' and ' + fileUrls[1] + ' to : ' + outputFile);
-    //
-    //         try {
-    //             var stitchCommandString = 'ls ' + fileUrls[0] + ' ' + fileUrls[1] + ' | perl -ne \'print "file $_"\' | ' + ffmpegConfig.FFMPEG_PATH + ' -y -f concat -safe 0 -i - -c copy ' + outputFile;
-    //             console.log(stitchCommandString);
-    //             exec(stitchCommandString, (error, stdout, stderr) => {
-    //                 console.log('stdout: ' + stdout);
-    //                 console.log('stderr: ' + stderr);
-    //                 if (error !== null) {
-    //                      console.log('exec error: ' + error);
-    //                 }
-    //                 fulfill(outputFile);
-    //             });
-    //         } catch (e) {console.log(e)}
-    //     }
-    // });
 }
 
-var onPostStitchVideo = (finalOutputFile) => {
+var stitchQuestions = (questionsArray) => {
+    return new Promise((fulfill, reject) => {
+        quizJsonFile = fileUtils.getNewUniqueFileName('json');
+        fs.writeFileSync(
+            quizJsonFile,
+            {
+                'quiz': {
+                    'questions': questionsArray
+                }
+            }.toString()
+        );
+        fulfill(quizJsonFile);
+    });
+}
+
+var onPostStitch = (videoFile, questionFile, projectObject) => {
+
+    return new Promise((fulfill, reject) => () {
+        saveFileAsParseFile(videoFile).then(
+            (parseVideoFile) => {
+                saveFileAsParseFile(questionFile).then(
+                    (parseQuestionsFile) => {
+                        projectObject.set('project_video', parseVideoFile);
+                        projectObject.set('video_path', parseVideoFile.url());
+                        projectObject.set('project_questions', parseQuestionsFile);
+                        projectObject.set('questions_path', parseQuestionsFile.url());
+                        projectObject.save().then(
+                            () => {
+                                fulfill();
+                            }, (error) => {
+                                reject(error);
+                            }
+                        );
+                    }
+                )
+            }, (error) => {
+                reject(error);
+            }
+        )
+    });
+}
+
+var saveFileAsParseFile = (file, extension) => {
     return new Promise((fulfill, reject) => {
         var reader = new FileReader();
         reader.onload = () => {
             var base64String = reader.result.split(',')[1];
-            var file = new Parse.File("myfile.mp4", { base64: base64String});
-            console.log('before fulfilling');
-            fulfill(file);
+            var parseFile = new Parse.File("file." + extension, { base64: base64String});
+            fulfill(parseFile);
         }
-        reader.readAsDataURL(new File(finalOutputFile));
+        reader.readAsDataURL(new File(file));
     });
 }
 
@@ -251,7 +239,7 @@ var deleteAllTempFiles = () => {
     } catch (e) {console.log(e)}
 }
 
-var onStitchComplete = (projectObject) => {
+var onDone = (projectObject) => {
     // delete all temporary files created in the process of stitching
     deleteAllTempFiles();
 
@@ -282,19 +270,4 @@ var onStitchComplete = (projectObject) => {
 
 	  }
   )
-}
-
-var stitchQuestions = (questionsArray) => {
-    return new Promise((fulfill, reject) => {
-        quizJsonFile = fileUtils.getNewUniqueFileName('json');
-        fs.writeFileSync(
-            quizJsonFile,
-            {
-                'quiz': {
-                    'questions': questionsArray
-                }
-            }.toString()
-        );
-        fulfill(quizJsonFile);
-    });
 }
