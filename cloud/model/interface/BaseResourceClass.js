@@ -168,14 +168,16 @@ var stitchSlide = (slide, outputFileName) => {
                             questionObject.hint = "";       // TODO
 
                             console.log('hllllllllllllllllllllllllllllllllllllllllllll');
-                            
+
 
                             questionObject.options = [];
                             for(var i=0; i<childResource.options.length; i++) {
+                                console.log('pushing');
                                 questionObject.options.push({
                                     'id': i,
                                     'option': childResource.options[i]
                                 });
+                                console.log('done pushing');
                             }
                             console.log('hllllllllllllllllllllllllllllllllllllllllllll');
 
