@@ -192,9 +192,9 @@ var stitchQuestions = (questionsArray) => {
 var onPostStitch = (videoFile, questionFile, projectObject) => {
 
     return new Promise((fulfill, reject) => () {
-        saveFileAsParseFile(videoFile).then(
+        saveFileAsParseFile(videoFile, 'mp4').then(
             (parseVideoFile) => {
-                saveFileAsParseFile(questionFile).then(
+                saveFileAsParseFile(questionFile, 'json').then(
                     (parseQuestionsFile) => {
                         projectObject.set('project_video', parseVideoFile);
                         projectObject.set('video_path', parseVideoFile.url());
