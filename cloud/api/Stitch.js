@@ -80,10 +80,8 @@ var stitchProject = (projectObject) => {
                 console.log('stitchOneSlide : called');
 				slide.fetch().then(
 					() => {
-                        console.log('before get new unique file name');
 						var outputFileName = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-                        console.log('after get new unique file name');
-						BaseResourceClass.stitchSlide(slide, outputFileName).then(
+						BaseResourceClass.stitchSlide(slide, outputFileName, count).then(
                             (output) => {
                                 if(output) {
                                     if(output.type === 'video') {
