@@ -40,7 +40,12 @@ var api = new ParseServer({
 	liveQuery: {
 		classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
 	},
-	push: {}
+	push: {
+		android: {
+			senderId: '715723709483',
+			apiKey: 'AAAApqR1HCs:APA91bFlIXoxM3jaWO-dY3NR0-Doo69BZUAW2k3SwW6IHLY-V3umhOggElLu9y4Z-JDKOIvAfEonFkGNXGfc-ASVrA2h-piCuX9QG04aKeX__ap-FRpWL3AhoKJN4agEX327biYOUu2C'
+		}
+	}
 });
 
 // initialize parse

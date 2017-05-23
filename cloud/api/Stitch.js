@@ -88,7 +88,7 @@ var stitchProject = (projectObject) => {
                                     if(output.type === 'video') {
                                         stitchedFileNames.push(output.data);
                                         if(output.duration) {
-                                            // not falsey
+                                            // output.duration not falsey
                                             duration += output.duration;
                                         }
                                     } else if(output.type === 'question') {
@@ -112,7 +112,7 @@ var stitchProject = (projectObject) => {
                                                 (stitchedQuestionsFile) => {
                                                     onPostStitch(stitchedVideoFile, stitchedQuestionsFile, projectObject).then(
                                                         () => {
-                                                            onDone(projectObject);
+                                                            onDone(projectObject, stitchedVideoFile, stitchedQuestionsFile);
                                                         }, (error) => {
                                                             console.log(error);
                                                         }
@@ -260,6 +260,9 @@ var onDone = (projectObject) => {
     // delete all temporary files created in the process of stitching
     deleteAllTempFiles();
 
+    // TODO POST the video and quiz to the CONTENT CREATOR API
+
+    // send push notification
   	var user = projectObject.get('user');
   	user.fetch().then(
 	  	() => {
