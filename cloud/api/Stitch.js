@@ -87,7 +87,10 @@ var stitchProject = (projectObject) => {
                                 if(output) {
                                     if(output.type === 'video') {
                                         stitchedFileNames.push(output.data);
-                                        duration += output.duration;
+                                        if(duration) {
+                                            // not falsey
+                                            duration += output.duration;
+                                        }
                                     } else if(output.type === 'question') {
                                         questions.push(output.data);
                                     }
