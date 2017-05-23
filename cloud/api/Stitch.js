@@ -197,9 +197,9 @@ var onPostStitch = (videoFile, questionFile, projectObject) => {
                 saveJsonFileAsParseFile(questionFile).then(
                     (parseQuestionsFile) => {
                         projectObject.set('project_video', parseVideoFile);
-                        projectObject.set('video_path', parseVideoFile.url());
-                        projectObject.set('project_questions', parseQuestionsFile);
-                        projectObject.set('questions_path', parseQuestionsFile.url());
+                        projectObject.set('video_path', parseVideoFile.url());          // TODO
+                        projectObject.set('project_questions', fs.readFileSync(parseQuestionsFile));
+                        projectObject.set('questions_path', parseQuestionsFile.url());  // TODO
                         projectObject.save().then(
                             () => {
                                 fulfill();
