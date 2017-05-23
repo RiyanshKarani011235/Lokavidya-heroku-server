@@ -179,11 +179,13 @@ var stitchQuestions = (questionsArray) => {
         quizJsonFile = fileUtils.getNewUniqueFileName('json');
         fs.writeFileSync(
             quizJsonFile,
-            {
-                'quiz': {
-                    'questions': questionsArray
+            JSON.stringify(
+                {
+                    'quiz': {
+                        'questions': questionsArray
+                    }
                 }
-            }.toString()
+            )
         );
         fulfill(quizJsonFile);
     });
@@ -239,8 +241,6 @@ var saveJsonFileAsParseFile = (file) => {
         reader.readAsDataURL(new File(file));
     });
 }
-
-var saveJsonFileAsParseFile
 
 var deleteAllTempFiles = () => {
     try {
