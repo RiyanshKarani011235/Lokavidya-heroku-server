@@ -87,7 +87,7 @@ var stitchProject = (projectObject) => {
                                 if(output) {
                                     if(output.type === 'video') {
                                         stitchedFileNames.push(output.data);
-                                        if(duration) {
+                                        if(output.duration) {
                                             // not falsey
                                             duration += output.duration;
                                         }
