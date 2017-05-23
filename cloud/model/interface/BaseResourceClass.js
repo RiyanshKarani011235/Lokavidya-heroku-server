@@ -85,9 +85,21 @@ var stitchSlide = (slide, outputFileName, numSlide) => {
                                                     })
                                                     .on('end', function(stdout, stderr) {
                                                         console.log('Transcoding succeeded !');
-                                                        fulfill({
-                                                            'type': 'video',
-                                                            'data': outputFileName
+
+                                                        // get duration of the video fileUtils
+                                                        console.log('getting duration');
+                                                        var commandString = ffmpegConfig.FFPROBE_PATH + ' -i ' + outputFileName + ' -show_entries format=duration -v quiet -of csv="p=0"';
+                                                        exec(commandString, (error, stdout, stderr) => {
+                                                            console.log('stdout: ' + stdout);
+                                                            console.log('stderr: ' + stderr);
+                                                            if (error !== null) {
+                                                                 console.log('exec error: ' + error);
+                                                            }
+
+                                                            fulfill({
+                                                                'type': 'video',
+                                                                'data': outputFileName
+                                                            });
                                                         });
                                                     })
                                                     .run();
