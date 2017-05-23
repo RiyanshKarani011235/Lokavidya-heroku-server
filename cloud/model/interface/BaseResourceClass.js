@@ -27,7 +27,7 @@ class BaseResourceClass extends BaseParseClass.BaseParseClass {
 
 }
 
-var stitchSlide = (slide, outputFileName, numSlide) => {
+var stitchSlide = (slide, outputFileName, numSlide, duration) => {
     return new Promise((fulfill, reject) => {
         console.log('stitchSlide : called');
         console.log(slide);
@@ -98,7 +98,8 @@ var stitchSlide = (slide, outputFileName, numSlide) => {
 
                                                             fulfill({
                                                                 'type': 'video',
-                                                                'data': outputFileName
+                                                                'data': outputFileName,
+                                                                'duration': parseInt(stdout)
                                                             });
                                                         });
                                                     })
@@ -172,7 +173,7 @@ var stitchSlide = (slide, outputFileName, numSlide) => {
                             var questionObject = {};
                             questionObject.id = numSlide;
                             questionObject.type = 'mcq';
-                            questionObject.time = 0;        // TODO
+                            questionObject.time = duration;
                             questionObject.question = childResource.get('question_string');
                             questionObject.skippable = false;
 

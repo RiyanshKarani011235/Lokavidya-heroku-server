@@ -75,17 +75,19 @@ var stitchProject = (projectObject) => {
 			var count = 0;
 			var numElements = elements.length;
 			var slide = elements[count];
+            var duration = 0;
 
 			var stitchOneSlide = (slide) => {
                 console.log('stitchOneSlide : called');
 				slide.fetch().then(
 					() => {
 						var outputFileName = fileUtils.getNewUniqueFileName(VIDEO_FILE_EXTENSION);
-						BaseResourceClass.stitchSlide(slide, outputFileName, count).then(
+						BaseResourceClass.stitchSlide(slide, outputFileName, count, duration).then(
                             (output) => {
                                 if(output) {
                                     if(output.type === 'video') {
                                         stitchedFileNames.push(output.data);
+                                        duration += output.duration;
                                     } else if(output.type === 'question') {
                                         questions.push(output.data);
                                     }
