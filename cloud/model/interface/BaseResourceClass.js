@@ -8,8 +8,17 @@ var FileAPI = require('file-api')
   , FileList = FileAPI.FileList
   , FileReader = FileAPI.FileReader
   ;
-
+var fileUtils = require('../../utils/FileUtils.js');
 var BaseParseClass = require('./BaseParseClass');
+var exec = require('child_process').exec;
+
+var configDir = path.join(__dirname, '..', '..', '..', 'config');
+var data = fs.readFileSync(path.join(configDir, 'ffmpeg_config.json'));
+var ffmpegConfig;
+
+try {
+	ffmpegConfig = JSON.parse(data);
+} catch (err) {console.log(err);}
 
 class BaseResourceClass extends BaseParseClass.BaseParseClass {
 
@@ -18,7 +27,7 @@ class BaseResourceClass extends BaseParseClass.BaseParseClass {
 
 }
 
-var stitchSlide = (slide, outputFileName) => {
+var stitchSlide = (slide, outputFileName, numSlide, duration) => {
     return new Promise((fulfill, reject) => {
         console.log('stitchSlide : called');
         console.log(slide);
@@ -48,20 +57,53 @@ var stitchSlide = (slide, outputFileName) => {
 
                                                 // stitch
                                                 ffmpeg()
+                                                    // input
                                                     .input(audioFile.url())
                                                     .input(imageFile.url())
+
+                                                    // output file
+                                                    .output(outputFileName)
+                                                    .size('800x?')
+                                                    .aspect('4:3')
+                                                    .autopad()
                                                     .videoCodec('libx264')
                                                     .fps(29.7)
                                                     .format('mp4')
-                                                    // .size('640x480')
+                                                    .outputOptions([
+                                                        '-c:v libx264',
+                                                        '-preset slow',
+                                                        '-crf 22',
+                                                        '-c:a aac',
+                                                        '-strict experimental',
+                                                        '-pix_fmt yuv420p',
+                                                        '-b:a 192k'
+                                                    ])
+
+                                                    // callbacks
                                                     .on('stderr', function(stderrLine) {
                                                         console.log('Stderr output: ' + stderrLine);
                                                     })
                                                     .on('end', function(stdout, stderr) {
                                                         console.log('Transcoding succeeded !');
-                                                        fulfill(outputFileName);
+
+                                                        // get duration of the video fileUtils
+                                                        console.log('getting duration');
+                                                        var commandString = ffmpegConfig.FFPROBE_PATH + ' -i ' + outputFileName + ' -show_entries format=duration -v quiet -of csv="p=0"';
+                                                        exec(commandString, (error, stdout, stderr) => {
+                                                            console.log('stdout: ' + stdout);
+                                                            console.log('stderr: ' + stderr);
+                                                            if (error !== null) {
+                                                                 console.log('exec error: ' + error);
+                                                            }
+
+                                                            fulfill({
+                                                                'type': 'video',
+                                                                'data': outputFileName,
+                                                                'duration': parseInt(stdout)
+                                                            });
+                                                        });
                                                     })
-                                                    .save(outputFileName);
+                                                    .run();
                                             }
                                         );
                                     } else {
@@ -75,28 +117,89 @@ var stitchSlide = (slide, outputFileName) => {
                             var file = childResource.get('file');
                             Parse.Cloud.httpRequest({ url: file.url() }).then(function(response) {
                                 // The file contents are in response.buffer.
-                                console.log('httpRequest : response');
                                 var extension = path.extname(file.url())
-                                console.log(extension);
-                                var newFileName = getNewUniqueFileName(extension);
+                                var newFileName = fileUtils.getNewUniqueFileName(extension);
                                 try {
                                     fs.writeFile(newFileName, response.buffer, 'binary', (error) => {
                                         if(error) {
                                             console.log(error);
                                             reject(error);
                                         }
-                                        console.log('fulfilling');
-                                        fulfill(newFileName);
+
+                                        var outputVideo = fileUtils.getNewUniqueFileName('mp4');
+
+                                        // convert the video to a predefined format
+                                        ffmpeg()
+                                            // input
+                                            .input(newFileName)
+
+                                            // output file
+                                            .output(outputVideo)
+                                            .size('800x?')
+                                            .aspect('4:3')
+                                            .autopad()
+                                            .videoCodec('libx264')
+                                            .fps(29.7)
+                                            .format('mp4')
+                                            .outputOptions([
+                                                '-c:v libx264',
+                                                '-preset slow',
+                                                '-crf 22',
+                                                '-c:a aac',
+                                                '-strict experimental',
+                                                '-pix_fmt yuv420p',
+                                                '-b:a 192k'
+                                            ])
+
+                                            // callbacks
+                                            .on('stderr', function(stderrLine) {
+                                                console.log('Stderr output: ' + stderrLine);
+                                            })
+                                            .on('end', function(stdout, stderr) {
+                                                console.log('Transcoding succeeded !');
+                                                fulfill({
+                                                    'type': 'video',
+                                                    'data': outputVideo
+                                                })
+                                            })
+                                            .run();
                                     });
                                 } catch (e) {
                                     console.log(e);
-                                    throw e;
+                                    reject(e);
                                 }
-
                             });
                         } else if(childResource.className == 'Question') {
-                            // stitch question
-                            fulfill();
+                            var questionObject = {};
+                            questionObject.id = numSlide;
+                            questionObject.type = 'mcq';
+                            questionObject.time = duration;
+                            questionObject.question = childResource.get('question_string');
+                            questionObject.skippable = false;
+
+                            var hintString = "";
+                            for(var i=0; i<childResource.get('hints').length; i++) {
+                                hintString += childResource.get('hints')[i] + '\n';
+                            }
+                            questionObject.hint = hintString;
+
+                            questionObject.options = [];
+                            for(var i=0; i<childResource.get('options').length; i++) {
+                                questionObject.options.push({
+                                    'id': i,
+                                    'option': childResource.get('options')[i]
+                                });
+                            }
+
+                            questionObject.answer = [];
+                            for(var i=0; i<childResource.get('correct_options').length; i++) {
+                                questionObject.answer.push(questionObject.options[childResource.get('correct_options')[i]]);
+                            }
+
+                            fulfill({
+                                'type': 'question',
+                                'data': questionObject
+                            });
                         }
                     }
                 );
@@ -106,34 +209,6 @@ var stitchSlide = (slide, outputFileName) => {
             }
         );
     });
-}
-
-var tempOutputFilesDir = path.join(__dirname, '..', '..', '..', 'outputFiles');
-console.log(tempOutputFilesDir);
-var getNewUniqueFileName = (extension) => {
-    var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
-    if(extension) {
-        filePath += '.' + extension;
-    }
-    while(fs.existsSync(filePath)) {
-        var filePath = path.join(tempOutputFilesDir, randomString(32, 'aA#'));
-        if(extension) {
-            filePath += '.' + extension;
-        }
-    }
-    console.log('generated new unique file : ' + filePath);
-    return filePath;
-}
-
-var randomString = (length, chars) => {
-    var mask = '';
-    if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
-    if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    if (chars.indexOf('#') > -1) mask += '0123456789';
-    if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
-    var result = '';
-    for (var i = length; i > 0; --i) result += mask[Math.floor(Math.random() * mask.length)];
-    return result;
 }
 
 module.exports = {

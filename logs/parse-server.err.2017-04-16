@@ -1,4 +1,0 @@
-{"error":{"code":202,"message":"Account already exists for this username."},"level":"error","message":"Error generating response. ParseError {\n  code: 202,\n  message: 'Account already exists for this username.' }","timestamp":"2017-04-16T07:43:30.915Z"}
-{"code":202,"message":"Account already exists for this username.","level":"error","timestamp":"2017-04-16T07:43:30.920Z"}
-{"error":{"code":202,"message":"Account already exists for this username."},"level":"error","message":"Error generating response. ParseError {\n  code: 202,\n  message: 'Account already exists for this username.' }","timestamp":"2017-04-16T07:46:12.591Z"}
-{"code":202,"message":"Account already exists for this username.","level":"error","timestamp":"2017-04-16T07:46:12.593Z"}
