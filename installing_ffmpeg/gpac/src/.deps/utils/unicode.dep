@@ -1,0 +1,4 @@
+utils/unicode.o: utils/unicode.c \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/unicode.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/setup.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/config.h

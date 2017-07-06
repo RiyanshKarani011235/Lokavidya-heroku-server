@@ -1,0 +1,16 @@
+media_tools/html5_media.o: media_tools/html5_media.c \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/setup.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/config.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/internal/scenegraph_dev.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/scenegraph_vrml.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/scenegraph.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/list.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/tools.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/version.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/revision.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/maths.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/scenegraph_svg.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/svg_types.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/path2d.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/events_constants.h \
+ /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/thread.h
