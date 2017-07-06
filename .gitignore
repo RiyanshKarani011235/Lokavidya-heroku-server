@@ -1,4 +1,5 @@
 /node_modules/*
 logs/
 outputFiles/
+installing_ffmpeg/
 

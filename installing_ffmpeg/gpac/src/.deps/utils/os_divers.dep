@@ -1,7 +1,0 @@
-utils/os_divers.o: utils/os_divers.c \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/tools.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/setup.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/config.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/version.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/revision.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/network.h

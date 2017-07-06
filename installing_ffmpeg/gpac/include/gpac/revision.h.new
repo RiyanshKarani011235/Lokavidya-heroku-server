@@ -1,1 +1,0 @@
-#define GPAC_SVN_REVISION	"5619"

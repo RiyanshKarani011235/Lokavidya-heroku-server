@@ -1,9 +1,0 @@
-media_tools/m3u8.o: media_tools/m3u8.c \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/internal/m3u8.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/tools.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/setup.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/config.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/version.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/revision.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/list.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/network.h

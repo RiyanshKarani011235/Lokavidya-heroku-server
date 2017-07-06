@@ -1,4 +1,0 @@
-utils/math.o: utils/math.c \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/maths.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/setup.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/config.h

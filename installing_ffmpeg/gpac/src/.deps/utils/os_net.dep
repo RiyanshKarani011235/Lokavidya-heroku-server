@@ -1,7 +1,0 @@
-utils/os_net.o: utils/os_net.c \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/network.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/tools.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/setup.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/config.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/version.h \
- /home/ubuntu/LVCreate/master/installing_ffmpeg/gpac/include/gpac/revision.h
