@@ -52,7 +52,7 @@ Parse.Cloud.define('sendOtp', (request, response) => {
     // var otp = Math.floor((Math.random() * Math.pow(10, NUMBER_OF_OTP_DIGITS)) + 1);
     var otp = 1000 + Math.floor(Math.random() * (9999 - 1000 + 1));
     var otpMessage = OTP_MESSAGE + otp.toString();
-   
+    
     plivoRestApi.send_message({
         'src': '+919999999999',
         'dst': phoneNumber,
