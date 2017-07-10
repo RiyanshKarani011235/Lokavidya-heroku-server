@@ -50,13 +50,12 @@ Parse.Cloud.define('sendOtp', (request, response) => {
    
     twilio.messages.create({
         to: phoneNumber, 
-        from: "+919999999999", 
+        from: '+12676680559', 
         body: otpMessage, 
     }, function(err, message) {
         //console.log('Error: ', err);
         console.log('Message:\n', message.status);
-        // yes the '==' operator is deliberately used
-        if(message.status == "sent") {
+        if(message.status == 201) {
             response.success(otp);
         } else {
             response.error('Could not generate OTP');
