@@ -49,7 +49,7 @@ Parse.Cloud.define('sendOtp', (request, response) => {
     var otpMessage = OTP_MESSAGE + otp.toString();
    
     twilio.messages.create({
-        to: "phoneNumber", 
+        to: phoneNumber, 
         from: "+919999999999", 
         body: otpMessage, 
     }, function(err, message) {
