@@ -266,18 +266,19 @@ var onDone = (projectObject) => {
   	var user = projectObject.get('user');
   	user.fetch().then(
 	  	() => {
-		  	var pushQuery = new Parse.Query(Parse.Installation);
+		  	var pushQuery = new Parse.Query(Parse.Installation)
+              , data = {
+					'alert': 'Your project has been stitched successfully.',
+					'badge': 1,
+					'sound': 'default'
+				};
 		  	pushQuery.equalTo('user', user);
             pushQuery.equalTo('deviceType', 'android');
 
 		  	//Set push query
 			Parse.Push.send({
 				where: pushQuery,
-				data: {
-					alert: 'Your project has been stitched successfully. ',
-					badge: 1,
-					sound: 'default'
-				}
+				data: data
 				}, {
 					success: function() {
 					console.log('PUSH NOTIFICATION SENT');
