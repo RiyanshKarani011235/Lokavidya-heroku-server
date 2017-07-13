@@ -266,19 +266,34 @@ var onDone = (projectObject) => {
   	var user = projectObject.get('user');
   	user.fetch().then(
 	  	() => {
-		  	var pushQuery = new Parse.Query(Parse.Installation)
-              , data = {
-					'alert': 'Your project has been stitched successfully.',
-					'badge': 1,
-					'sound': 'default'
-				};
+		  	var pushQuery = new Parse.Query(Parse.Installation);
 		  	pushQuery.equalTo('user', user);
             pushQuery.equalTo('deviceType', 'android');
 
-		  	//Set push query
-			Parse.Push.send({
+            //Set push query
+            Parse.Push.send({
+                where: pushQuery,
+                data: {
+                    title: 'Welcome To Lokavidya',
+					alert: 'Your project has been stitched successfully.'
+                }
+            }, {
+                useMasterKey: true,
+                success: function() {
+				    console.log('PUSH NOTIFICATION SENT');
+				},
+				error: function(error) {
+				    console.log('PUSH NOTIFICATION ERROR');
+				}
+            });
+
+			/*Parse.Push.send({
 				where: pushQuery,
-				data: data
+				data: {
+					alert: 'Your project has been stitched successfully.',
+                    badge: 1,
+                    sound: 'default'
+				}
 				}, {
 					success: function() {
 					console.log('PUSH NOTIFICATION SENT');
@@ -287,8 +302,7 @@ var onDone = (projectObject) => {
 					console.log('PUSH NOTIFICATION ERROR');
 				},
 				useMasterKey: true
-			});
-
+			});*/
 	  }
   )
 }
