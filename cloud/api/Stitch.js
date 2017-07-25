@@ -267,7 +267,7 @@ var onDone = (projectObject) => {
   	user.fetch().then(
 	  	() => {
 		  	var pushQuery = new Parse.Query(Parse.Installation);
-		  	pushQuery.equalTo('user', user);
+		  	//pushQuery.equalTo('user', user);
             pushQuery.equalTo('deviceType', 'android');
 
             //Set push query
