@@ -28,7 +28,7 @@ const VIDEO_FILE_EXTENSION = 'mp4';
 var configDir = path.join(__dirname, '..', '..', 'config');
 var data = fs.readFileSync(path.join(configDir, 'ffmpeg_config.json'));
 var ffmpegConfig;
-var errcode;
+var errcode = 0;
 
 try {
 	ffmpegConfig = JSON.parse(data);
@@ -362,7 +362,7 @@ var onDone = (projectObject) => {
             pushQuery.equalTo('deviceType', 'android');
 
             var alertString;
-            if(errcode = 1) {
+            if(errcode == 1) {
                 alertString = 'Oops! There was some error uploading your video. Please try again.';
             } else {
                 alertString = 'Your project has been uploaded successfully.'
