@@ -24,7 +24,7 @@ const DATABASE_URI =  config.MONGO_DB_URL;
 const CLOUD_URL = process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js';
 const APP_ID = process.env.APP_ID || config.APP_ID;
 const MASTER_KEY = process.env.masterKey || config.MASTER_KEY;
-const SERVER_URL = process.env.SERVER_URL || 'http://localhost:' + PORT + '/parse';
+const SERVER_URL = process.env.SERVER_URL || 'http://54.218.78.174:' + PORT + '/parse' || 'http://localhost:' + PORT + '/parse';
 
 if (!DATABASE_URI) {
   throw new Error('DATABASE_URI not specified');
