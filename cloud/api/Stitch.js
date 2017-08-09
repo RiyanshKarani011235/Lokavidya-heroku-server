@@ -44,11 +44,14 @@ try {
     console.log(err);
 }
 var command = ffmpeg();
+var deviceToken;
+var objectId;
 
 Parse.Cloud.define('stitch', (request, response) => {
 
+    objectId = request.params.project_id;
 	var query = new Parse.Query("Project");
-	query.equalTo("objectId", request.params.project_id);
+	query.equalTo("objectId", objectId);
 	query.first({
 		success: (object) => {
 			console.log('project lookup succedeed : ' + object.id);
@@ -56,10 +59,12 @@ Parse.Cloud.define('stitch', (request, response) => {
 			stitchProject(object);
 		},
 		error: () => {
-			console.log("no project with id : " + request.params.project_id);
-			response.error("no project with id : " + request.params.project_id);
+			console.log("no project with id : " + objectId);
+			response.error("no project with id : " + objectId);
 		}
-	});
+    });
+    
+    deviceToken = request.params.deviceToken;
 });
 
 // TODO add promise here
@@ -360,7 +365,7 @@ var onDone = (projectObject) => {
             if(errcode = 1) {
                 alertString = 'Oops! There was some error uploading your video. Please try again.';
             } else {
-                alertString = 'Your project has been stitched successfully.'
+                alertString = 'Your project has been uploaded successfully.'
             }
 
             //Set push query
