@@ -206,11 +206,13 @@ var onPostStitch = (videoFile, questionFile, projectObject) => {
                         projectObject.set('project_quiz', parseQuestionsFile);
                         projectObject.set('questions_path', parseQuestionsFile.url());  // TODO
                         projectObject.save().then(
-                            () => {
-                                fulfill();
-                            }, (error) => {
-                                reject(error);
-                            }
+                            uploadVideoFile(projectObject, videoFile, questionFile).then(
+                                () => {
+                                    fulfill();
+                                }, (error) => {
+                                    reject(error);
+                                }
+                            )
                         );
                     }
                 )
@@ -218,6 +220,85 @@ var onPostStitch = (videoFile, questionFile, projectObject) => {
                 reject(error);
             }
         )
+    });
+}
+
+var uploadVideoFile = (projectObject, videoFile, questionFile) => {
+    return new Promise((fulfill, reject) => {
+ 
+        //console.log("videoFileurl: " +path.basename(videoFile));
+        //console.log("questionFileurl: " +path.basename(questionFile));
+
+        var vparts = videoFile.split('/');
+        var vfile = vparts.pop() || vparts.pop();
+
+        var qparts = questionFile.split('/');
+        var qfile = qparts.pop() || qparts.pop();
+
+        console.log('file: ' +vfile); 
+        console.log('file: ' +qfile); 
+
+        var outputDir = path.join(__dirname, '..', '..', 'outputFiles/');
+        var files = fs.readdirSync(outputDir)
+        console.log(files);
+
+        var vidFile, quizFile;
+
+        files.forEach((file) => {
+            if(vfile == file) {
+                vidFile = file;
+                console.log(vidFile);
+            }
+            if(qfile == file) {
+                quizFile = file;
+                console.log(quizFile);
+            }
+        });
+
+        var category = projectObject.get("category");
+
+        var category_id = category.id;
+        var name = projectObject.get("name");
+        var project_id = projectObject.id;
+        var des = projectObject.get("description");
+        var vid = fs.createReadStream(outputDir + vidFile);
+        var quiz = fs.createReadStream(outputDir + quizFile);
+
+        var jsonObject = { "video" : {
+            "name" : name,
+            "video" : outputDir + vidFile,
+            "category_id" : category_id,
+            "project_id" : project_id,
+            "quiz" : outputDir + quizFile,
+            "description" : des,
+        }};
+
+        console.log('name: ' +jsonObject.video.name);
+        console.log('video: ' +jsonObject.video.video);
+        console.log('category_id: ' +jsonObject.video.category_id);
+        console.log('project_id: ' +jsonObject.video.project_id);
+        console.log('quiz: ' +jsonObject.video.quiz);
+        console.log('description: ' +jsonObject.video.description);
+
+        var formData = {
+                'video[name]' : name,
+                'video[category_id]' : category_id,
+                'video[project_id]' : project_id,
+                'video[description]' : des,
+                'video[video]' : vid,
+                'video[quiz]' : quiz,
+        };
+
+        request.post({url:'http://employee-dev-env.dkprxv4uh3.us-west-2.elasticbeanstalk.com/api/v1/videos/upload', formData: formData },
+        function(err, httpResponse, body) {
+        if (err) {
+            return console.error('upload failed:', err);
+        }
+        console.log('body:', body);
+        console.log('httpResponse:', httpResponse);
+        });
+
+        fulfill();
     });
 }
 
