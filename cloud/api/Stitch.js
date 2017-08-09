@@ -8,6 +8,7 @@ var fs = require('fs');
 var parse = require('parse')
 var ffmpeg = require('fluent-ffmpeg');
 var FileReader = require('filereader');
+var request = require('request');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var FileAPI = require('file-api')
   , File = FileAPI.File
@@ -27,6 +28,7 @@ const VIDEO_FILE_EXTENSION = 'mp4';
 var configDir = path.join(__dirname, '..', '..', 'config');
 var data = fs.readFileSync(path.join(configDir, 'ffmpeg_config.json'));
 var ffmpegConfig;
+var errcode;
 
 try {
 	ffmpegConfig = JSON.parse(data);
@@ -115,6 +117,7 @@ var stitchProject = (projectObject) => {
                                                             onDone(projectObject, stitchedVideoFile, stitchedQuestionsFile);
                                                         }, (error) => {
                                                             console.log(error);
+                                                            onDone(projectObject, stitchedVideoFile, stitchedQuestionsFile);
                                                         }
                                                     );
 
@@ -211,6 +214,7 @@ var onPostStitch = (videoFile, questionFile, projectObject) => {
                                     fulfill();
                                 }, (error) => {
                                     reject(error);
+                                    errcode = 1;
                                 }
                             )
                         );
@@ -348,15 +352,23 @@ var onDone = (projectObject) => {
   	user.fetch().then(
 	  	() => {
 		  	var pushQuery = new Parse.Query(Parse.Installation);
-		  	//pushQuery.equalTo('user', user);
+              //pushQuery.equalTo('user', user);
+            pushQuery.equalTo('deviceToken', deviceToken);
             pushQuery.equalTo('deviceType', 'android');
+
+            var alertString;
+            if(errcode = 1) {
+                alertString = 'Oops! There was some error uploading your video. Please try again.';
+            } else {
+                alertString = 'Your project has been stitched successfully.'
+            }
 
             //Set push query
             Parse.Push.send({
                 where: pushQuery,
                 data: {
                     title: 'Welcome To Lokavidya',
-					alert: 'Your project has been stitched successfully.'
+					alert: alertString
                 }
             }, {
                 useMasterKey: true,
@@ -367,23 +379,6 @@ var onDone = (projectObject) => {
 				    console.log('PUSH NOTIFICATION ERROR');
 				}
             });
-
-			/*Parse.Push.send({
-				where: pushQuery,
-				data: {
-					alert: 'Your project has been stitched successfully.',
-                    badge: 1,
-                    sound: 'default'
-				}
-				}, {
-					success: function() {
-					console.log('PUSH NOTIFICATION SENT');
-					},
-					error: function(error) {
-					console.log('PUSH NOTIFICATION ERROR');
-				},
-				useMasterKey: true
-			});*/
 	  }
   )
 }
